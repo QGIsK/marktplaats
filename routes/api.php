@@ -16,3 +16,21 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::prefix('auth')->group(function () {
+    Route::post('register', 'AuthController@register');
+    Route::post('login', 'AuthController@login');
+    Route::get('refresh', 'AuthController@refresh');
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('user', 'AuthController@user');
+        Route::post('logout', 'AuthController@logout');
+    });
+});
+
+Route::prefix('users')->group(function () {
+    Route::get('/{user}', 'UserController@show');
+    Route::group(['middleware' => ['auth:api', 'isAdminOrSelf']], function () {
+        Route::put('/{user}', 'UserController@update');
+    });
+});
+
