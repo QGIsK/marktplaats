@@ -34,7 +34,7 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        login({ commit }, user) {
+        login({ commit }) {
             return new Promise((resolve, reject) => {
                 commit("auth_request");
                 axios({
@@ -58,6 +58,7 @@ export default new Vuex.Store({
                             token,
                             user
                         });
+
                         resolve(resp);
                     })
                     .catch(err => {
@@ -101,6 +102,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
+
                 delete axios.defaults.headers.common["Authorization"];
                 commit("logout");
                 resolve();
@@ -109,6 +111,7 @@ export default new Vuex.Store({
     },
     getters: {
         isLoggedIn: state => !!state.token,
+        user: state => state.user,
         userId: state => state.user.id,
         authStatus: state => state.status
     }

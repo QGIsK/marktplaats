@@ -17,7 +17,7 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
+        <b-form-group id="input-group-2" label="Your password" label-for="input-2">
           <b-form-input
             id="input-2"
             v-model="form.password"
@@ -27,7 +27,7 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-button type="submit" variant="primary">Submit</b-button>
+        <b-button type="submit" variant="primary">Login</b-button>
         <b-button type="reset" variant="danger" class="ml-2">Clear</b-button>
       </b-form>
     </b-card>
@@ -41,7 +41,7 @@ export default {
     return {
       form: {
         email: "",
-        name: ""
+        password: ""
       },
       show: true
     };
@@ -59,8 +59,6 @@ export default {
           password
         })
         .then(() => {
-          console.log("successfull");
-
           this.form.email = "";
           this.form.password = "";
 
@@ -69,11 +67,16 @@ export default {
             this.show = true;
           });
 
+          this.$bvToast.toast(`Successfully logged in`, {
+            title: `Success`,
+            variant: "Success",
+            solid: true
+          });
+
           this.$router.push("/");
         })
         .catch(e => {
           console.log(e);
-          console.log("smth went wrong");
         });
     },
     onReset(evt) {
