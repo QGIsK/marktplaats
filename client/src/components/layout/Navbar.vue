@@ -15,8 +15,8 @@
           </b-navbar-nav>
 
           <b-navbar-nav v-if="isLoggedIn" class="ml-auto">
-            <b-nav-item @click="logout()">Logout</b-nav-item>
-            <b-nav-item-dropdown text="User" right>
+            <b-nav-item @click="logout">Logout</b-nav-item>
+            <b-nav-item-dropdown :text="user.name" right>
               <b-dropdown-item href="#">Profile</b-dropdown-item>
               <b-dropdown-item href="#">Settings</b-dropdown-item>
               <b-dropdown-item href="#">Ads</b-dropdown-item>
@@ -41,6 +41,18 @@ export default {
       get() {
         return this.$store.getters.isLoggedIn;
       }
+    },
+    user: {
+      get() {
+        return this.$store.getters.user;
+      }
+    }
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/");
+      });
     }
   }
 };
