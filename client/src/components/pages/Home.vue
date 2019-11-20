@@ -16,20 +16,21 @@
     </b-jumbotron>
 
     <b-container>
-      <b-row v-if="ads">
-        <b-col col="4"  v-for="card in [1, 2, 3]" :key="card">
+      <b-row v-if="Object.keys(ads).length">
+        <b-col v-for="ad in ads" :key="ad.id">
           <b-card
-            title="Ad"
+            :title="ad.title"
             img-src="https://picsum.photos/600/300/?image=25"
-            img-alt="Image"
+            img-alt="Image of ad"
             img-top
-            tag="ad"
             style="min-width: 20rem; max-width: 20rem;"
             class="mx-auto my-4"
           >
-            <b-card-text>Some quick example text to build on the card title and make up the bulk of the card's content.</b-card-text>
+            <b-card-text>
+              {{ad.description}} 
+             </b-card-text>
 
-            <b-button href="#" variant="primary">Go somewhere</b-button>
+            <b-button @click="redirect('ad', ad.id)" variant="primary">Go to ad</b-button>
           </b-card>
         </b-col>
       </b-row>
@@ -42,10 +43,24 @@ export default {
   name: "Home",
   data () {
     return {
-      ads: true
+      
+    }
+  },
+  computed: {
+    ads: {
+      get() {
+        return this.$store.getters.ads
+      },
+    }
+  },
+  mounted() {
+    this.$store.dispatch('getAds');
+  },
+  methods: {
+    redirect(type, id) {
+      this.$router.push(`/${type}/${id}`)
     }
   }
-
 };
 </script>
 

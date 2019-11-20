@@ -26,11 +26,19 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-
     protected $hidden = [
         'password', 'remember_token',
     ];
 
+     public function ads()
+    {
+        return $this->hasMany(Ads::class);
+    }
+    
+    // public function comments()
+    // {
+    //     return $this->hasMany(Comment::class);
+    // }
 
     public function getJWTIdentifier()
     {

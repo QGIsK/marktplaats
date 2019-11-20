@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "@/components/pages/Home";
 import Register from "@/components/pages/auth/Register";
 import Login from "@/components/pages/auth/Login";
+import ShowAd from "@/components/pages/ads/ShowAd";
 
 Vue.use(Router);
 
@@ -23,5 +24,10 @@ export default new Router({
             name: "login",
             component: Login
         },
+        {
+            path: "/ad/:id",
+            name: "ShowAd",
+            component: ShowAd
+        }
     ]
 });

@@ -12,7 +12,12 @@ export default {
   name: "app",
   components: {
     Navbar
-  }
+  },
+  computed: {
+  },
+  mounted() {
+    this.$store.dispatch('getAds');
+  },
 };
 </script>
 

@@ -13,7 +13,8 @@ export default new Vuex.Store({
     state: {
         status: "",
         token: localStorage.getItem("token") || "",
-        user: JSON.parse(localStorage.getItem("user")) || {}
+        user: JSON.parse(localStorage.getItem("user")) || {},
+        ads: []
     },
     mutations: {
         auth_request(state) {
@@ -31,9 +32,27 @@ export default new Vuex.Store({
             state.status = "";
             state.token = "";
             state.user = {};
+        },
+        storeAds(state, { ads }) {
+            state.ads = ads;
         }
     },
     actions: {
+        getAds({ commit }) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    url: "/api/ads",
+                    method: "GET"
+                })
+                    .then(res => {
+                        commit("storeAds", { ads: res.data.data });
+                        resolve(res);
+                    })
+                    .catch(e => {
+                        reject(e);
+                    });
+            });
+        },
         login({ commit }, user) {
             return new Promise((resolve, reject) => {
                 commit("auth_request");
@@ -113,6 +132,7 @@ export default new Vuex.Store({
         isLoggedIn: state => !!state.token,
         user: state => state.user,
         userId: state => state.user.id,
-        authStatus: state => state.status
+        authStatus: state => state.status,
+        ads: state => state.ads
     }
 });
