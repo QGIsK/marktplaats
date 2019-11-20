@@ -67,10 +67,11 @@ export default {
             this.show = true;
           });
 
-          this.$bvToast.toast(`Successfully logged in`, {
+          this.$bvToast.toast(`Logged in`, {
             title: `Success`,
-            variant: "Success",
-            solid: true
+            variant: "success",
+            solid: true,
+            autoHideDelay: 5000
           });
 
           this.$router.push("/");
