@@ -77,7 +77,7 @@ export default {
       let password_confirmation = this.form.password_confirmation;
 
       this.$store
-        .dispatch("register", this, {
+        .dispatch("register", {
           email,
           name,
           password,
@@ -92,6 +92,13 @@ export default {
           this.show = false;
           this.$nextTick(() => {
             this.show = true;
+          });
+
+          this.$bvToast.toast(`Registered`, {
+            title: `Success`,
+            variant: "success",
+            solid: true,
+            autoHideDelay: 5000
           });
 
           this.$router.push("/");
