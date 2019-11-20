@@ -7,12 +7,12 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav class="mx-auto">
+          <!-- <b-navbar-nav class="mx-auto">
             <b-nav-form>
               <b-form-input class="mr-sm-2" placeholder="Search"></b-form-input>
               <b-button class="my-2 my-sm-0" type="submit">Search</b-button>
             </b-nav-form>
-          </b-navbar-nav>
+          </b-navbar-nav>-->
 
           <b-navbar-nav v-if="isLoggedIn" class="ml-auto">
             <b-nav-item @click="logout">Logout</b-nav-item>
@@ -52,6 +52,12 @@ export default {
     logout() {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/");
+        this.$bvToast.toast(`Logged out`, {
+          title: `Success`,
+          variant: "success",
+          solid: true,
+          autoHideDelay: 5000
+        });
       });
     }
   }
