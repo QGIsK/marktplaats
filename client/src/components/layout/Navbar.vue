@@ -10,7 +10,7 @@
           <b-navbar-nav v-if="isLoggedIn" class="ml-auto">
             <b-nav-item-dropdown text="Ads" right>
               <b-dropdown-item to="/ad/new">New Ad</b-dropdown-item>
-              <b-dropdown-item href="#">My Ads</b-dropdown-item>
+              <b-dropdown-item to="/ad/my">My Ads</b-dropdown-item>
             </b-nav-item-dropdown>
             <b-nav-item-dropdown :text="user.name" right>
               <b-dropdown-item>Profile</b-dropdown-item>
