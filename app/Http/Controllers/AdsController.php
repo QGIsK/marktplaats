@@ -29,7 +29,7 @@ class AdsController extends Controller
     public function store(Request $request)
     {
         if(!$request->title || !$request->description) {
-            return response()->json(['error' => 'Please provide all fiels'], 422);
+            return response()->json(['error' => 'Please provide all fields'], 422);
         }
 
         $ad = Ads::create([
@@ -66,9 +66,9 @@ class AdsController extends Controller
         if(Auth::user()->role === 2 || Auth::user()->id != $ad->user_id ) {
             return response()->json(['error' => 'Unauthorized'], 403);    
         }
-
+        
         if(!$request->title || !$request->description) {
-            return response()->json(['error' => 'Please provide all fiels'], 422);
+            return response()->json(['error' => 'Please provide all fields'], 422);
         }
         $ad->update($request->only(['title', 'description', 'image']));
 
