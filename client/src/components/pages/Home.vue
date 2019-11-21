@@ -10,7 +10,7 @@
         <template v-slot:header>Search</template>
 
         <b-form class="mx-auto">
-          <b-form-input class="w-75 mx-auto" size="lg" placeholder="Search"></b-form-input>
+          <b-form-input v-model="search" class="w-75 mx-auto" size="lg" placeholder="Search"></b-form-input>
         </b-form>
       </b-container>
     </b-jumbotron>
@@ -29,7 +29,6 @@
             class="mx-auto my-4"
           >
             <b-card-text>{{ad.description}}</b-card-text>
-
             <b-button @click="redirect('ad', ad.id)" variant="primary">Go to ad</b-button>
           </b-card>
         </b-col>
@@ -56,12 +55,16 @@
 export default {
   name: "Home",
   data() {
-    return {};
+    return { search: "", page: 0, min: 0, max: 25 };
   },
   computed: {
     ads: {
       get() {
-        return this.$store.getters.ads;
+        if (this.search.length > 0)
+          return this.$store.getters.ads.filter(ad =>
+            ad.title.toLowerCase().includes(this.search.toLowerCase())
+          );
+        return this.$store.getters.ads.slice(0, 25);
       }
     }
   },
