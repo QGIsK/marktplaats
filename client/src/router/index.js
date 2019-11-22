@@ -8,7 +8,7 @@ import Login from "@/components/pages/auth/Login";
 
 import MyAds from "@/components/pages/ads/MyAds";
 import ShowAd from "@/components/pages/ads/ShowAd";
-import AddAd from "@/components/pages/ads/AddAd";
+import NewAd from "@/components/pages/ads/NewAd";
 
 import store from "../store/";
 
@@ -33,8 +33,8 @@ let router = new Router({
         },
         {
             path: "/ad/new",
-            name: "AddAd",
-            component: AddAd,
+            name: "NewAd",
+            component: NewAd,
             meta: {
                 requiresAuth: true
             }
