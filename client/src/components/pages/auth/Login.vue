@@ -74,9 +74,15 @@ export default {
             autoHideDelay: 5000
           });
 
-          this.$router.push("/");
+          this.$router.push("/ad/my");
         })
         .catch(e => {
+          this.$bvToast.toast(`An error occured, Please try again.`, {
+            title: `Error`,
+            variant: "danger",
+            solid: true,
+            autoHideDelay: 5000
+          });
           console.log(e);
         });
     },
