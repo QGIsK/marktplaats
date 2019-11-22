@@ -13,11 +13,15 @@ export default {
   components: {
     Navbar
   },
-  computed: {
-  },
+  computed: {},
   mounted() {
-    this.$store.dispatch('getAds');
-  },
+    this.$store.dispatch("getAds");
+  }
 };
 </script>
 
+<style>
+* {
+  font-family: "Comfortaa", cursive;
+}
+</style>
