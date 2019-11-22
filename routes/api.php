@@ -37,7 +37,7 @@ Route::prefix('users')->group(function () {
 Route::prefix("ads")->group(function() {
     Route::get("/", 'AdsController@index');
     Route::get("/{ad}", 'AdsController@show');
-
+    
     Route::group(['middleware' => 'auth:api'], function() {
         Route::post("/", 'AdsController@store');
         Route::put("/{ad}", 'AdsController@update');
