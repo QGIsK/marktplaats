@@ -51,7 +51,11 @@ export default new Vuex.Store({
             // return;
             return new Promise((resolve, reject) => {
                 axios
-                    .post(`/api/ads`, post)
+                    .post(`/api/ads`, post, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
                     .then(res => {
                         resolve(res);
                     })

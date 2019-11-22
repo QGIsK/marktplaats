@@ -45,3 +45,15 @@ Route::prefix("ads")->group(function() {
     });
 });
 
+
+
+
+Route::prefix('file')->group(function () {
+    Route::get('/{slug}', 'FileController@index');
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::post("/", 'FileController@store');
+    });
+    Route::group(['middleware' => ['auth:api, isAdmin']], function () {
+        Route::delete("/{slug}", 'FileController@delete');
+    });
+});

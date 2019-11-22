@@ -35,7 +35,8 @@ class AdsController extends Controller
         $ad = Ads::create([
             'user_id' => $request->user()->id,
             'title' => $request->title,
-            'description'  => $request->description
+            'description'  => $request->description,
+            'image'  => $request->image,
         ]);
 
         return new AdsResource($ad);

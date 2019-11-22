@@ -2,9 +2,10 @@
   <div>
     <b-row class="mt-5 mx-5" v-if="ad">
       <b-col cols="8">
+        <!-- img-src="https://images.unsplash.com/photo-1574321756605-4611fe4ed1a6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1360&q=80" -->
         <b-card
           :title="ad.title"
-          img-src="https://images.unsplash.com/photo-1574321756605-4611fe4ed1a6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1360&q=80"
+          :src="ad.image"
           img-alt="Image of ad"
           img-top
           class="w-75 mx-auto my-4"

@@ -69,11 +69,11 @@ export default {
 
       show: true,
       dropzoneOptions: {
-        url: "http://localhost:8000/api/file/upload",
+        url: "http://localhost:8000/api/file/",
         thumbnailWidth: 150,
         maxFilesize: 10,
-        maxFiles: 1,
-        headers: { Authorization: localStorage.getItem("token") }
+        maxFiles: 5,
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       }
     };
   },
@@ -85,15 +85,16 @@ export default {
     }
   },
   methods: {
-    fileSuccess(response) {
-      this.image = response.path;
+    fileSuccess(file, res) {
+      // console.log(res);
+      this.image = res.url;
     },
     fileError() {
       this.$bvToast.toast(
         `An error occured uploading your image, Please try again.`,
         {
           title: `Error`,
-          variant: "error",
+          variant: "danger",
           solid: true,
           autoHideDelay: 5000
         }
