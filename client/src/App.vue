@@ -18,10 +18,10 @@ export default {
     this.$store.dispatch("getAds");
   }
 };
+// <style>
+// * {
+//   font-family: "Comfortaa", cursive;
+// }
+// </style>
 </script>
 
-<style>
-* {
-  font-family: "Comfortaa", cursive;
-}
-</style>
