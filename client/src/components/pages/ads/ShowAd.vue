@@ -5,12 +5,12 @@
         <!-- img-src="https://images.unsplash.com/photo-1574321756605-4611fe4ed1a6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1360&q=80" -->
         <b-card
           :title="ad.title"
-          :src="ad.image"
+          :img-src="ad.image"
           img-alt="Image of ad"
           img-top
           class="w-75 mx-auto my-4"
         >
-          <b-card-text>{{ad.description}}</b-card-text>
+          <b-card-text v-html="ad.description"></b-card-text>
 
           <b-button @click="redirect('ad', ad.id)" variant="primary">Go to ad</b-button>
         </b-card>
