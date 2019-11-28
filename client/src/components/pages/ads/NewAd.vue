@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card header="New Ad" class="w-75 mt-5 mx-auto">
+    <b-card header="New Ad" class="w-75 mb-5 mt-5 mx-auto">
       <b-form v-if="show" @submit="onSubmit" @reset="onReset">
         <b-form-group
           id="input-group-1"
