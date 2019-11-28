@@ -7,12 +7,6 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV == "development") {
     axios.defaults.baseURL = "http://localhost:8000";
 }
 
-const token = localStorage.getItem("token");
-
-if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-}
-
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -45,11 +39,8 @@ export default new Vuex.Store({
     },
     actions: {
         createAd({ commit }, { post }) {
-            // axios.post("/api/ads", post).then(res => {
-            //     console.log(res.data);
-            // });
-            // return;
             return new Promise((resolve, reject) => {
+                const token = localStorage.getItem("token");
                 axios
                     .post(`/api/ads`, post, {
                         headers: {
