@@ -17,7 +17,7 @@ class AdsController extends Controller
      */
     public function index()
     {
-        return AdsResource::collection(Ads::with('user')->get());
+        return AdsResource::collection(Ads::with('user')->latest()->get());
     }
 
     /**
