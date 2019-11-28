@@ -28,7 +28,7 @@
             style="min-width: 20rem; max-width: 20rem;"
             class="mx-auto my-4"
           >
-            <b-card-text>{{ad.description}}</b-card-text>
+            <b-card-text v-html="ad.description"></b-card-text>
             <b-button @click="redirect('ad', ad.id)" variant="primary">Go to ad</b-button>
           </b-card>
         </b-col>
