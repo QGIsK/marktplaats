@@ -38,11 +38,11 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        createAd({ commit }, { post }) {
+        createAd({ commit }, { ad }) {
             return new Promise((resolve, reject) => {
                 const token = localStorage.getItem("token");
                 axios
-                    .post(`/api/ads`, post, {
+                    .post(`/api/ads`, ad, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -53,6 +53,21 @@ export default new Vuex.Store({
                     .catch(e => {
                         reject(e);
                     });
+            });
+        },
+        deleteAd({ commit }, { ad }) {
+            return new Promise((resolve, reject) => {
+                const token = localStorage.getItem("token");
+                const url = `/api/ads/${ad.id}`;
+                console.log(url);
+                axios
+                    .delete(url, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+                    .then(res => resolve(res))
+                    .catch(err => reject(err));
             });
         },
         getAds({ commit }) {
