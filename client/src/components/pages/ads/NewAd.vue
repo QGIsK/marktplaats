@@ -86,8 +86,11 @@ export default {
   },
   methods: {
     fileSuccess(file, res) {
-      // console.log(res);
-      this.image = res.url;
+      this.image.length > 0
+        ? (this.image += `,${res.url}`)
+        : (this.image = res.url);
+
+      console.log(this.image);
     },
     fileError() {
       this.$bvToast.toast(
@@ -111,10 +114,9 @@ export default {
       };
 
       this.$store
-        .dispatch("createAd", { post: data })
+        .dispatch("createAd", { ad: data })
         .then(res => {
-          console.log(res);
-          this.$bvToast.toast(`Post created`, {
+          this.$bvToast.toast(`Ad created`, {
             title: `Success`,
             variant: "success",
             solid: true,
