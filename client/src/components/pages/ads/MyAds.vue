@@ -19,7 +19,7 @@
       <b-row v-if="Object.keys(ads).length">
         <b-col v-for="ad in ads" :key="ad.id">
           <b-card
-            :title="ad.title"
+            :title="ad.title" 
             :img-src="ad.image"
             img-alt="Image of ad"
             img-top
