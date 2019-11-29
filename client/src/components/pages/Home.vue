@@ -22,7 +22,7 @@
           <!-- {{ad}} -->
           <b-card
             :title="ad.title"
-            :img-src="ad.image"
+            :img-src="ad.image[0]"
             img-alt="Image of ad"
             img-top
             style="min-width: 20rem; max-width: 20rem;"
@@ -64,6 +64,16 @@ export default {
           return this.$store.getters.ads.filter(ad =>
             ad.title.toLowerCase().includes(this.search.toLowerCase())
           );
+
+        console.log(this.$store.getters.ads[0]);
+        if (this.$store.getters.ads) {
+          // this.$store.getters.ads.forEach()
+          //   let image = ad.image;
+          //   // image = image.replace('"', "").replace('"', "");
+          //   // image = image.split(",");
+          //   ad.image = image;
+          // }
+        }
         return this.$store.getters.ads.slice(0, 25);
       }
     }
