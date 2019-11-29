@@ -36,7 +36,7 @@ class AdsController extends Controller
             'user_id' => $request->user()->id,
             'title' => $request->title,
             'description'  => $request->description,
-            'image'  => $request->image,
+            'image'  => json_encode($request->image),
         ]);
 
         return new AdsResource($ad);
