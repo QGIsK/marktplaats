@@ -65,21 +65,22 @@ export default {
             ad.title.toLowerCase().includes(this.search.toLowerCase())
           );
 
-        console.log(this.$store.getters.ads[0]);
-        if (this.$store.getters.ads) {
-          // this.$store.getters.ads.forEach()
-          //   let image = ad.image;
-          //   // image = image.replace('"', "").replace('"', "");
-          //   // image = image.split(",");
-          //   ad.image = image;
-          // }
-        }
+
+        // console.log(this.$store.getters.ads[0]);
+        // if (this.$store.getters.ads) {
+        //   this.$store.getters.ads.forEach(ad => {
+        //     let image = ad.image;
+        //     image = image.replace('"', "").replace('"', "");
+        //     image = image.split(",");
+        //     ad.image = image;
+        //   });
+        // }
         return this.$store.getters.ads.slice(0, 25);
       }
     }
   },
   mounted() {
-    this.$store.dispatch("getAds");
+    // this.$store.dispatch("getAds");
   },
   methods: {
     redirect(type, id) {

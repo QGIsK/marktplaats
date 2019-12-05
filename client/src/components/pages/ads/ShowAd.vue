@@ -2,13 +2,12 @@
   <div>
     <b-row class="mt-5 mx-5" v-if="ad">
       <b-col cols="8">
-        <!-- img-src="https://images.unsplash.com/photo-1574321756605-4611fe4ed1a6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1360&q=80" -->
         <b-card
           :title="ad.title"
-          :img-src="ad.image"
+          class="w-75 mx-auto my-4"
+          :img-src="ad.image[0]"
           img-alt="Image of ad"
           img-top
-          class="w-75 mx-auto my-4"
         >
           <b-card-text v-html="ad.description"></b-card-text>
 
@@ -33,20 +32,36 @@
           <b-button @click="redirect('user', ad.user.id)" variant="primary">Go to user</b-button>
         </b-card>
       </b-col>
-
-      <b-modal id="deleteModal" title="Delete this ad" hide-footer>
-        <span>
-          <p>
-            Are you absolutely sure you want to delete
-            <b>{{ad.title}}</b>?
-            <br>
-            <small class="secondary">There's no going back afterwards..</small>
-          </p>
-          <b-button @click="deletePost()" variant="danger" class="mr-2">Delete Post</b-button>
-          <b-button @click="$bvModal.hide('model-1')" variant="info">Cancel</b-button>
-        </span>
-      </b-modal>
     </b-row>
+    <b-row class="mt-5 mx-5" v-if="ad">
+      <b-col cols="8">
+        <b-carousel
+          id="header-slider"
+          v-model="slide"
+          :interval="4000"
+          controls
+          background="transparent"
+          @sliding-start="onSlideStart"
+          @sliding-end="onSlideEnd"
+          img-height="50px"
+        >
+          <b-carousel-slide v-for="image in ad.image" :key="image" :img-src="image"></b-carousel-slide>
+        </b-carousel>
+      </b-col>
+    </b-row>
+
+    <b-modal id="deleteModal" title="Delete this ad" v-if="ad && isAdOwner" hide-footer>
+      <span>
+        <p>
+          Are you absolutely sure you want to delete
+          <b>{{ad.title}}</b>?
+          <br>
+          <small class="secondary">There's no going back afterwards..</small>
+        </p>
+        <b-button @click="deletePost()" variant="danger" class="mr-2">Delete Post</b-button>
+        <b-button @click="$bvModal.hide('model-1')" variant="info">Cancel</b-button>
+      </span>
+    </b-modal>
   </div>
 </template>
 
@@ -55,7 +70,12 @@
 
 export default {
   name: "ShowAd",
-
+  data() {
+    return {
+      slide: 0,
+      sliding: null
+    };
+  },
   computed: {
     ad: {
       get() {
@@ -66,7 +86,7 @@ export default {
     },
     ads: {
       get() {
-        return this.$store.getters.ads;
+        return this.$store.getters.ads;  
       }
     },
     isAdOwner: {
@@ -79,6 +99,12 @@ export default {
     }
   },
   methods: {
+    onSlideStart() {
+      this.sliding = true;
+    },
+    onSlideEnd() {
+      this.sliding = false;
+    },
     redirect(type, id) {
       this.$router.push(`/${type}/${id}`);
     },
@@ -111,3 +137,4 @@ export default {
   }
 };
 </script>
+
