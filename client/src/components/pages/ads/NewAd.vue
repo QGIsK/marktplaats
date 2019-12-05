@@ -50,6 +50,7 @@
 
 <script>
 import vue2Dropzone from "vue2-dropzone";
+import VueCookies from "vue-cookies";
 
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
 import "vue-wysiwyg/dist/vueWysiwyg.css";
@@ -73,7 +74,7 @@ export default {
         thumbnailWidth: 150,
         maxFilesize: 10,
         maxFiles: 5,
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+        headers: { Authorization: `Bearer ${VueCookies.get("token")}` }
       }
     };
   },
