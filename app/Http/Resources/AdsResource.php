@@ -18,7 +18,7 @@ class AdsResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'image' => $this->image,
+            'image' => json_decode($this->image),
             'featured' => $this->featured,
             'user_id' => $this->user_id,
             'user' => $this->user,
