@@ -29,7 +29,7 @@
             class="mx-auto my-4"
           >
             <b-card-text v-html="ad.description"></b-card-text>
-            <b-button @click="redirect('ad', ad.id)" variant="primary">Go to ad</b-button>
+            <b-button @click="redirect('ad', ad.id)" variant="primary">View Ad</b-button>
           </b-card>
         </b-col>
       </b-row>
@@ -60,11 +60,18 @@ export default {
   computed: {
     ads: {
       get() {
+        let ads = this.$store.getters.ads;
+        for (let i = 0; ads > i; i++) {
+          let img = ads[i].image;
+          img = img.replace('"', "").replace('"', "");
+          img = img.split(",");
+          ads[i].image = img;
+        }
+
         if (this.search.length > 0)
           return this.$store.getters.ads.filter(ad =>
             ad.title.toLowerCase().includes(this.search.toLowerCase())
           );
-
 
         // console.log(this.$store.getters.ads[0]);
         // if (this.$store.getters.ads) {
