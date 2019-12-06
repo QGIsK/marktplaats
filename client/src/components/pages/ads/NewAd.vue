@@ -123,10 +123,14 @@ export default {
             solid: true,
             autoHideDelay: 5000
           });
+          let ad = res.data.data;
+          let img = ad.image;
+          img = img.replace('"', "").replace('"', "");
+          img = img.split(",");
+          ad.image = img;
+          this.ads.unshift(ad);
 
-          this.ads.unshift(res.data.data);
-
-          this.$router.push(`/ad/${res.data.data.id}`);
+          this.$router.push(`/ad/${ad.id}`);
         })
         .catch(e => {
           this.$bvToast.toast(`An error occured, Please try again.`, {
