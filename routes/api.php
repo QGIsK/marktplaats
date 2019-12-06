@@ -34,8 +34,7 @@ Route::prefix('users')->group(function () {
     });
 });
 
-Route::prefix("ads")->group(function() {
-    Route::get("/", 'AdsController@index');
+Route::prefix("bid")->group(function() {
     Route::get("/{ad}", 'AdsController@show');
     
     Route::group(['middleware' => 'auth:api'], function() {
@@ -43,6 +42,20 @@ Route::prefix("ads")->group(function() {
         Route::put("/{ad}", 'AdsController@update');
         Route::delete("/{ad}", 'AdsController@destroy');        
     });
+});
+
+Route::prefix("ads")->group(function() {
+    Route::get("/", 'AdsController@index');
+    
+
+    Route::get("/{ad}", 'AdsController@show');
+    
+    Route::group(['middleware' => 'auth:api'], function() {
+        Route::post("/", 'AdsController@store');
+        Route::put("/{ad}", 'AdsController@update');
+        Route::delete("/{ad}", 'AdsController@destroy');        
+    });
+    
 });
 
 
