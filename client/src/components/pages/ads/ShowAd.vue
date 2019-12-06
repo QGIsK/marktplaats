@@ -29,25 +29,51 @@
             Member since: {{ad.user.created_at || formatDate}}
           </b-card-text>
 
-          <b-button @click="redirect('user', ad.user.id)" variant="primary">Go to user</b-button>
+          <b-button @click="redirect('user', ad.user.id)" variant="primary">View profile</b-button>
         </b-card>
+        <!-- <b-col cols="4"> -->
+
+        <b-card class="w-50 mt-5 my-4" v-if="isAdVisitor">
+          <b-form @submit.prevent="addBid">
+            <b-form-group id="input-group-1" label="Bid on item" label-for="input-1">
+              <b-form-input
+                id="input-2"
+                v-model="newBid"
+                type="text"
+                required
+                placeholder="Enter amount"
+              ></b-form-input>
+            </b-form-group>
+            <b-button type="submit" variant="primary">Bid</b-button>
+          </b-form>
+        </b-card>
+        <b-card class="w-50 mt-5 my-4" title="Bids on item">
+          <b-table striped hover :items="items"></b-table>
+        </b-card>
+        <!-- </b-col> -->
       </b-col>
     </b-row>
     <b-row class="mt-5 mx-5" v-if="ad">
       <b-col cols="8">
-        <b-carousel
-          id="header-slider"
-          v-model="slide"
-          :interval="4000"
-          controls
-          background="transparent"
-          @sliding-start="onSlideStart"
-          @sliding-end="onSlideEnd"
-          img-height="50px"
-        >
-          <b-carousel-slide v-for="image in ad.image" :key="image" :img-src="image"></b-carousel-slide>
-        </b-carousel>
+        <b-card title="Images of item" class="w-75 h-50 mx-auto my-4">
+          <b-carousel
+            id="header-slider"
+            v-model="slide"
+            :interval="4000"
+            controls
+            background="transparent"
+            @sliding-start="onSlideStart"
+            @sliding-end="onSlideEnd"
+          >
+            <b-carousel-slide v-for="image in ad.image" :key="image" :img-src="image"></b-carousel-slide>
+          </b-carousel>
+        </b-card>
       </b-col>
+      <!-- <b-col cols="4">
+        <b-card class="w-50 my-4" title="Bids on item">
+          <b-table striped hover :items="items"></b-table>
+        </b-card>
+      </b-col>-->
     </b-row>
 
     <b-modal id="deleteModal" title="Delete this ad" v-if="ad && isAdOwner" hide-footer>
@@ -73,7 +99,16 @@ export default {
   data() {
     return {
       slide: 0,
-      sliding: null
+      sliding: null,
+      items: [
+        { user: "Demiann", amount: "100$" },
+        { user: "Demiann", amount: "100$" },
+        { user: "Demiann", amount: "100$" },
+        { user: "Demiann", amount: "100$" },
+        { user: "Demiann", amount: "100$" },
+        { user: "Demiann", amount: "100$" }
+      ],
+      newBid: ""
     };
   },
   computed: {
@@ -86,7 +121,7 @@ export default {
     },
     ads: {
       get() {
-        return this.$store.getters.ads;  
+        return this.$store.getters.ads;
       }
     },
     isAdOwner: {
@@ -95,6 +130,11 @@ export default {
           this.$store.getters.isAdmin ||
           this.$store.getters.userId === this.ad.user_id
         );
+      }
+    },
+    isAdVisitor: {
+      get() {
+        return this.$store.getters.userId !== this.ad.user_id;
       }
     }
   },
