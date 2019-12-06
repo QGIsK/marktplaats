@@ -33,7 +33,6 @@ export default {
             const token = VueCookies.get("token");
 
             const url = `/api/ads/${ad.id}`;
-            console.log(url);
             axios
                 .delete(url, {
                     headers: {
@@ -50,7 +49,7 @@ export default {
                 url: "/api/ads",
                 method: "GET"
             })
-                .then(res => {
+                .then(async res => {
                     let ads = res.data.data;
                     for (let i = 0; ads.length > i; i++) {
                         let img = ads[i].image;
@@ -83,7 +82,6 @@ export default {
                     const user = resp.data.user;
 
                     VueCookies.set("token", token, "24h");
-                    VueCookies.set("user", user, "24h");
 
                     // localStorage.setItem("token", token);
                     localStorage.setItem("user", JSON.stringify(user));
@@ -98,7 +96,10 @@ export default {
                 })
                 .catch(err => {
                     commit("auth_error", err);
-                    localStorage.removeItem("token");
+
+                    VueCookies.remove("token");
+                    localStorage.removeItem("user");
+
                     reject(err);
                 });
         });
@@ -117,8 +118,7 @@ export default {
                     const user = resp.data.user;
 
                     VueCookies.set("token", token, "24h");
-                    VueCookies.set("user", user, "24h");
-                    // localStorage.setItem("token", token);
+
                     localStorage.setItem("user", JSON.stringify(user));
 
                     axios.defaults.headers.common["Authorization"] = token;
@@ -130,18 +130,16 @@ export default {
                 })
                 .catch(err => {
                     commit("auth_error", err);
+                    VueCookies.remove("token");
                     localStorage.removeItem("user");
-                    localStorage.removeItem("token");
+
                     reject(err);
                 });
         });
     },
     logout({ commit }) {
         return new Promise((resolve, reject) => {
-            VueCookies.set("token", token, "24h");
-            VueCookies.set("user", user, "24h");
-
-            // localStorage.removeItem("token");
+            VueCookies.remove("token");
             localStorage.removeItem("user");
 
             delete axios.defaults.headers.common["Authorization"];
