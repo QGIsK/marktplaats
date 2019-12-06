@@ -19,8 +19,8 @@
       <b-row v-if="Object.keys(ads).length">
         <b-col v-for="ad in ads" :key="ad.id">
           <b-card
-            :title="ad.title" 
-            :img-src="ad.image"
+            :title="ad.title"
+            :img-src="ad.image[0]"
             img-alt="Image of ad"
             img-top
             style="min-width: 20rem; max-width: 20rem;"
@@ -61,6 +61,14 @@ export default {
         let ads = this.$store.getters.ads.filter(
           ad => ad.user.id === this.userId
         );
+
+        // for (let i = 0; ads > i; i++) {
+        //   let img = ads[i].image;
+        //   img = img.replace('"', "").replace('"', "");
+        //   img = img.split(",");
+        //   ads[i].image = img;
+        // }
+
         if (this.search.length > 0) {
           ads = ads.filter(ad =>
             ad.title.toLowerCase().includes(this.search.toLowerCase)
