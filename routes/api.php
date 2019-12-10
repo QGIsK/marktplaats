@@ -35,19 +35,17 @@ Route::prefix('users')->group(function () {
 });
 
 Route::prefix("bid")->group(function() {
-    Route::get("/{ad}", 'AdsController@show');
+    Route::get("/{ad}", 'BidController@index');
+    // Route::get("/{ad}", 'BidController@show');
     
     Route::group(['middleware' => 'auth:api'], function() {
-        Route::post("/", 'AdsController@store');
-        Route::put("/{ad}", 'AdsController@update');
-        Route::delete("/{ad}", 'AdsController@destroy');        
+        Route::post("/", 'BidController@store');
+        Route::delete("/{bid}", 'BidController@destroy');        
     });
 });
 
 Route::prefix("ads")->group(function() {
     Route::get("/", 'AdsController@index');
-    
-
     Route::get("/{ad}", 'AdsController@show');
     
     Route::group(['middleware' => 'auth:api'], function() {
@@ -62,7 +60,6 @@ Route::prefix("ads")->group(function() {
 
 
 Route::prefix('file')->group(function () {
-    Route::get('/{slug}', 'FileController@index');
     Route::group(['middleware' => 'auth:api'], function () {
         Route::post("/", 'FileController@store');
     });
