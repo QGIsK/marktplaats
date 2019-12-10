@@ -78,7 +78,7 @@ export default {
                 method: "POST"
             })
                 .then(resp => {
-                    const token = resp.data.access_token;
+                    const token = resp.data.bearer_token;
                     const user = resp.data.user;
 
                     VueCookies.set("token", token, "24h");
@@ -114,7 +114,7 @@ export default {
                 method: "POST"
             })
                 .then(resp => {
-                    const token = resp.data.access_token;
+                    const token = resp.data.bearer_token;
                     const user = resp.data.user;
 
                     VueCookies.set("token", token, "24h");
