@@ -4,7 +4,7 @@ import VueCookies from "vue-cookies";
 
 export default {
     status: "",
-    token: `Bearer ${VueCookies.get("token")}` || "",
+    token: VueCookies.get("token") || "",
     user: JSON.parse(localStorage.getItem("user")) || {},
     ads: []
 };
