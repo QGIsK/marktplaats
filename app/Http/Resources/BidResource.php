@@ -13,11 +13,13 @@ class BidResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request)
+
+    public function toArray($request) 
     {
         return [
             'id' => $this->id,
             'amount' => $this->amount,
+            'ad_id' => $this->ad_id,
             'user_id' => $this->user_id,
             'user' => $this->user,
             'created_at' => (string) $this->created_at,
