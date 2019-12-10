@@ -48,14 +48,30 @@
           </b-form>
         </b-card>
         <b-card class="w-50 mt-5 my-4" title="Bids on item">
-          <b-table striped hover :items="items"></b-table>
+          <b-table striped hover v-if="bids" :items="bids"></b-table>
         </b-card>
         <!-- </b-col> -->
       </b-col>
     </b-row>
+    <b-row class="mt-5 mx-5" v-else>
+      <b-col offset="2" cols="8">
+        <b-card
+          title="404 Not found"
+          class="w-75 mx-auto my-4"
+          img-src="https://source.unsplash.com/1600x900/?cat"
+          img-alt="Image of ad"
+          img-top
+        >
+          <b-card-text>
+            The ad you're looking for doesn't exist or has been moved ;(
+            <br>But heres a cat picture for your troubles
+          </b-card-text>
+        </b-card>
+      </b-col>
+    </b-row>
     <b-row class="mt-5 mx-5" v-if="ad">
       <b-col cols="8">
-        <b-card title="Images of item" class="w-75 h-50 mx-auto my-4">
+        <b-card title="Images of item" class="w-75 mx-auto my-4">
           <b-carousel
             id="header-slider"
             v-model="slide"
@@ -82,7 +98,7 @@
           Are you absolutely sure you want to delete
           <b>{{ad.title}}</b>?
           <br>
-          <small class="secondary">There's no going back afterwards..</small>
+          <small class="text-danger">There's no going back afterwards..</small>
         </p>
         <b-button @click="deletePost()" variant="danger" class="mr-2">Delete Post</b-button>
         <b-button @click="$bvModal.hide('model-1')" variant="info">Cancel</b-button>
@@ -100,15 +116,8 @@ export default {
     return {
       slide: 0,
       sliding: null,
-      items: [
-        { user: "Demiann", amount: "100$" },
-        { user: "Demiann", amount: "100$" },
-        { user: "Demiann", amount: "100$" },
-        { user: "Demiann", amount: "100$" },
-        { user: "Demiann", amount: "100$" },
-        { user: "Demiann", amount: "100$" }
-      ],
-      newBid: ""
+      bids: [],
+      fullBids: []
     };
   },
   computed: {
@@ -138,7 +147,31 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getBids();
+  },
   methods: {
+    getBids() {
+      this.$http(`/api/bid/${this.$route.params.id}`)
+        .then(res => {
+          this.fullBids = res.data.data;
+
+          this.fullBids.forEach(bid => {
+            this.bids.push({
+              Amount: bid.amount,
+              Who: bid.user.name
+            });
+          });
+        })
+        .catch(() => {
+          this.$bvToast.toast(`An error occured`, {
+            title: `Error`,
+            variant: "Danger",
+            solid: true,
+            autoHideDelay: 5000
+          });
+        });
+    },
     onSlideStart() {
       this.sliding = true;
     },
