@@ -10,8 +10,13 @@ class Bid extends Model
         'amount', 'user_id', 'ad_id',
     ];
 
-     public function user()
+    public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function ad()
+    {
+        return $this->belongsTo(Ad::class);
     }
 }
