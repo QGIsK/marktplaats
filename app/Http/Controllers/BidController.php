@@ -18,7 +18,7 @@ class BidController extends Controller
     public function index($ad)
     {
         // dd(Bid::where('ad_id', $ad)->with('user')->get());
-        return BidResource::collection(Bid::where('ad_id', $ad)->with('user')->get());
+        return BidResource::collection(Bid::where('ad_id', $ad)->with('user')->latest()->get());
     }
 
     /**
