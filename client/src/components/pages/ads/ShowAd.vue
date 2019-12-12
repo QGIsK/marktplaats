@@ -25,7 +25,7 @@
         >
           <b-card-text>
             Location: {{ad.user.location}}
-            <br>
+            <br />
             Member since: {{ad.user.created_at || formatDate}}
           </b-card-text>
 
@@ -38,6 +38,16 @@
             <b-form-group id="input-group-1" label="Bid on item" label-for="input-1">
               <b-form-input
                 id="input-2"
+                v-if="disableBid"
+                disabled
+                type="text"
+                required
+                placeholder="Enter amount"
+              ></b-form-input>
+              <b-form-input
+                id="input-2"
+                v-else
+                @keypress="isNumber($event)"
                 v-model="newBid"
                 type="text"
                 required
@@ -47,8 +57,11 @@
             <b-button type="submit" variant="primary">Bid</b-button>
           </b-form>
         </b-card>
-        <b-card class="w-50 mt-5 my-4" title="Bids on item">
-          <b-table striped hover v-if="bids" :items="bids"></b-table>
+        <b-card class="w-50 mt-5 my-4" title="Bids on item" v-if="bids.length > 0">
+          <b-table striped hover :items="bids" @row-clicked="messageUser"></b-table>
+        </b-card>
+        <b-card class="w-50 mt-5 my-4" title="Bids on item" v-else>
+          <span>There are no bids on this item yet</span>
         </b-card>
         <!-- </b-col> -->
       </b-col>
@@ -58,14 +71,11 @@
         <b-card
           title="404 Not found"
           class="w-75 mx-auto my-4"
-          img-src="https://source.unsplash.com/1600x900/?cat"
+          img-src="https://source.unsplash.com/1600x900/?cat,dog"
           img-alt="Image of ad"
           img-top
         >
-          <b-card-text>
-            The ad you're looking for doesn't exist or has been moved ;(
-            <br>But heres a cat picture for your troubles
-          </b-card-text>
+          <b-card-text>The ad you're looking for doesn't exist or has been moved ;(</b-card-text>
         </b-card>
       </b-col>
     </b-row>
@@ -97,7 +107,7 @@
         <p>
           Are you absolutely sure you want to delete
           <b>{{ad.title}}</b>?
-          <br>
+          <br />
           <small class="text-danger">There's no going back afterwards..</small>
         </p>
         <b-button @click="deletePost()" variant="danger" class="mr-2">Delete Post</b-button>
@@ -117,7 +127,9 @@ export default {
       slide: 0,
       sliding: null,
       bids: [],
-      fullBids: []
+      disableBid: false,
+      fullBids: [],
+      newBid: ""
     };
   },
   computed: {
@@ -151,6 +163,22 @@ export default {
     this.getBids();
   },
   methods: {
+    isNumber: function(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (
+        charCode > 31 &&
+        (charCode < 48 || charCode > 57) &&
+        charCode !== 46
+      ) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
+    messageUser(record, index) {
+      console.log(record, index);
+    },
     getBids() {
       this.$http(`/api/bid/${this.$route.params.id}`)
         .then(res => {
@@ -158,8 +186,9 @@ export default {
 
           this.fullBids.forEach(bid => {
             this.bids.push({
-              Amount: bid.amount,
-              Who: bid.user.name
+              Amount: parseInt(bid.amount),
+              Who: bid.user.name,
+              WhoId: bid.user.id
             });
           });
         })
@@ -171,6 +200,33 @@ export default {
             autoHideDelay: 5000
           });
         });
+    },
+    addBid() {
+      const data = {
+        ad_id: this.ad.id,
+        amount: this.newBid
+      };
+
+      this.$http({ url: "/api/bid/", method: "post", data })
+        .then(res => {
+          this.newBid = "";
+          this.disableBid = true;
+          this.bids = [];
+
+          this.fullBids.push(res.data.data);
+          this.fullBids.forEach(bid => {
+            this.bids.unshift({
+              Amount: parseInt(bid.amount),
+              Who: bid.user.name,
+              WhoId: bid.user.id
+            });
+          });
+
+          setInterval(() => {
+            this.disableBid = false;
+          }, 60000);
+        })
+        .catch(err => console.log(err));
     },
     onSlideStart() {
       this.sliding = true;

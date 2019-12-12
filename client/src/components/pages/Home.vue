@@ -55,7 +55,12 @@
 export default {
   name: "Home",
   data() {
-    return { search: "", page: 0, min: 0, max: 25 };
+    return {
+      search: "",
+      page: 0,
+      min: 0,
+      max: 25
+    };
   },
   computed: {
     ads: {
