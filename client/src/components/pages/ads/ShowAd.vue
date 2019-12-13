@@ -2,18 +2,37 @@
   <div>
     <b-row class="mt-5 mx-5" v-if="ad">
       <b-col cols="8">
-        <b-card
-          :title="ad.title"
-          class="w-75 mx-auto my-4"
-          :img-src="ad.image[0]"
-          img-alt="Image of ad"
-          img-top
-        >
-          <b-card-text v-html="ad.description"></b-card-text>
+        <b-card class="w-75 mx-auto my-4" :title="ad.title" img-alt="Image of ad" img-top>
+          <!-- :img-src="ad.image[0]" -->
+          <b-carousel
+            id="header-slider"
+            v-model="slide"
+            :interval="4000"
+            controls
+            background="transparent"
+            @sliding-start="onSlideStart"
+            @sliding-end="onSlideEnd"
+          >
+            <b-carousel-slide v-for="image in ad.image" :key="image" :img-src="image"></b-carousel-slide>
+          </b-carousel>
+          <b-card-text class="my-4" v-html="ad.description"></b-card-text>
 
           <b-button v-if="isAdOwner" v-b-modal.deleteModal variant="danger" class="mr-2">Delete</b-button>
-          <b-button v-if="isAdOwner" v-b-modal.editModal variant="info">Edit</b-button>
+          <b-button v-if="isAdOwner" @click="editAd" variant="info">Edit</b-button>
         </b-card>
+        <!-- <b-card title="Images of item" class="w-75 mx-auto my-4">
+          <b-carousel
+            id="header-slider"
+            v-model="slide"
+            :interval="4000"
+            controls
+            background="transparent"
+            @sliding-start="onSlideStart"
+            @sliding-end="onSlideEnd"
+          >
+            <b-carousel-slide v-for="image in ad.image" :key="image" :img-src="image"></b-carousel-slide>
+          </b-carousel>
+        </b-card>-->
       </b-col>
       <b-col cols="4">
         <b-card
@@ -33,7 +52,7 @@
         </b-card>
         <!-- <b-col cols="4"> -->
 
-        <b-card class="w-50 mt-5 my-4" v-if="isAdVisitor">
+        <b-card class="w-50 mt-5 my-4" v-if="isAuthenticated && isAdVisitor">
           <b-form @submit.prevent="addBid">
             <b-form-group id="input-group-1" label="Bid on item" label-for="input-1">
               <b-form-input
@@ -79,7 +98,7 @@
         </b-card>
       </b-col>
     </b-row>
-    <b-row class="mt-5 mx-5" v-if="ad">
+    <!-- <b-row class="mt-5 mx-5" v-if="ad">
       <b-col cols="8">
         <b-card title="Images of item" class="w-75 mx-auto my-4">
           <b-carousel
@@ -94,13 +113,13 @@
             <b-carousel-slide v-for="image in ad.image" :key="image" :img-src="image"></b-carousel-slide>
           </b-carousel>
         </b-card>
-      </b-col>
-      <!-- <b-col cols="4">
+    </b-col>-->
+    <!-- <b-col cols="4">
         <b-card class="w-50 my-4" title="Bids on item">
           <b-table striped hover :items="items"></b-table>
         </b-card>
-      </b-col>-->
-    </b-row>
+    </b-col>-->
+    <!-- </b-row> -->
 
     <b-modal id="deleteModal" title="Delete this ad" v-if="ad && isAdOwner" hide-footer>
       <span>
@@ -124,6 +143,7 @@ export default {
   name: "ShowAd",
   data() {
     return {
+      editActive: true,
       slide: 0,
       sliding: null,
       bids: [],
@@ -133,6 +153,11 @@ export default {
     };
   },
   computed: {
+    isAuthenticated: {
+      get() {
+        return this.$store.getters.isAuthenticated;
+      }
+    },
     ad: {
       get() {
         return this.ads.filter(ad => {
@@ -163,6 +188,9 @@ export default {
     this.getBids();
   },
   methods: {
+    editAd() {
+      this.$router.push(`/ad/${this.ad.id}/edit`);
+    },
     isNumber: function(evt) {
       evt = evt ? evt : window.event;
       var charCode = evt.which ? evt.which : evt.keyCode;
