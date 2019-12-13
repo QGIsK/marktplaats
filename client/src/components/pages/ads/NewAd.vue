@@ -38,7 +38,7 @@
           label-for="input-3"
           description="Describe the item you're trying to sell, Please do include things such as the items Condition And its Age."
         >
-          <wysiwyg id="body" v-model="description"/>
+          <wysiwyg id="body" v-model="description" />
         </b-form-group>
 
         <b-button type="submit" variant="primary">Create</b-button>
@@ -64,11 +64,12 @@ export default {
   },
   data() {
     return {
+      show: true,
+
       title: "",
       description: "",
       image: "",
 
-      show: true,
       dropzoneOptions: {
         url: "http://localhost:8000/api/file/",
         thumbnailWidth: 150,
@@ -94,6 +95,7 @@ export default {
       console.log(this.image);
     },
     fileError() {
+      this.dropzoneOptions.maxFiles++;
       this.$bvToast.toast(
         `An error occured uploading your image, Please try again.`,
         {
