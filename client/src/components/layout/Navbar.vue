@@ -7,7 +7,7 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav v-if="isLoggedIn" class="ml-auto">
+          <b-navbar-nav v-if="isAuthenticated" class="ml-auto">
             <b-nav-item-dropdown text="Ads" right>
               <b-dropdown-item to="/ad/new">New Ad</b-dropdown-item>
               <b-dropdown-item to="/ad/my">My Ads</b-dropdown-item>
@@ -34,9 +34,9 @@ export default {
   name: "Navbar",
 
   computed: {
-    isLoggedIn: {
+    isAuthenticated: {
       get() {
-        return this.$store.getters.isLoggedIn;
+        return this.$store.getters.isAuthenticated;
       }
     },
     user: {
