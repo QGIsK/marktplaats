@@ -7,9 +7,24 @@ import router from "./router";
 import wysiwyg from "vue-wysiwyg";
 import VueCookies from "vue-cookies";
 import BootstrapVue from "bootstrap-vue";
+import VueScrollTo from "vue-scrollto";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+
+Vue.use(VueScrollTo, {
+    container: "body",
+    duration: 500,
+    easing: "ease",
+    offset: 0,
+    force: true,
+    cancelable: true,
+    onStart: false,
+    onDone: false,
+    onCancel: false,
+    x: false,
+    y: true
+});
 
 Vue.use(VueCookies);
 Vue.use(BootstrapVue);
