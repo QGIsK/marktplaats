@@ -5,6 +5,7 @@
       style="border-radius: 0"
       text-variant="white"
       border-variant="dark"
+      id="top"
     >
       <b-container>
         <template v-slot:header>Search</template>
@@ -47,6 +48,20 @@
           </b-card>
         </b-col>
       </b-row>
+      <b-row v-if="Object.keys(ads).length">
+        <b-col cols="8">
+          <b-pagination
+            class="ml-5 my-4"
+            v-model="currentPage"
+            :total-rows="rows"
+            :per-page="perPage"
+            aria-controls="my-table"
+          ></b-pagination>
+        </b-col>
+        <b-col cols="4">
+          <b-button class="ml-5 my-4 align-end" color="secondary" v-scroll-to="'#top'">Back to top</b-button>
+        </b-col>
+      </b-row>
     </b-container>
   </div>
 </template>
@@ -57,13 +72,25 @@ export default {
   data() {
     return {
       search: "",
-      page: 0,
-      min: 0,
-      max: 25
+      perPage: 25,
+      currentPage: 1
     };
   },
   computed: {
+    rows: {
+      get() {
+        return this.allAds.length / 1;
+      }
+    },
     ads: {
+      get() {
+        const max = this.currentPage * this.perPage;
+        const min = max - this.perPage;
+
+        return this.$store.getters.ads.slice(min, max);
+      }
+    },
+    allAds: {
       get() {
         let ads = this.$store.getters.ads;
         for (let i = 0; ads > i; i++) {
