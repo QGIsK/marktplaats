@@ -40,6 +40,8 @@ class AdsController extends Controller
             'image'  => json_encode($request->image),
         ]);
 
+
+
         return new AdsResource($ad);
     }
     
@@ -72,8 +74,14 @@ class AdsController extends Controller
         if(!$request->title || !$request->description) {
             return response()->json(['error' => 'Please provide all fields'], 422);
         }
-        $ad->update($request->only(['title', 'description', 'image']));
 
+        $image = json_encode($request->image);
+        $ad->update([
+            'title' => $request->title,
+            'description'  => $request->description,
+            'image'  => json_encode($request->image),
+        ]);
+        
         return new AdsResource($ad);
     }
 
@@ -83,6 +91,7 @@ class AdsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
     public function destroy(Ads $ad)
     {
         if(Auth::user()->role === 2 || Auth::user()->id != $ad->user_id ) {
