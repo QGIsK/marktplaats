@@ -27,6 +27,42 @@ export default {
                 });
         });
     },
+    editAd({ commit }, { ad }) {
+        return new Promise((resolve, reject) => {
+            // const token = localStorage.getItem("token");
+            const token = VueCookies.get("token");
+
+            // console.log(ad);
+
+            axios({
+                url: `/api/ads/${ad.id}`,
+                data: ad,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                method: "PUT"
+            })
+                .then(res => {
+                    resolve(res);
+                })
+                .catch(e => {
+                    reject(e);
+                });
+
+            // axios
+            //     .put(`/api/ads/${ad.id}`, ad, {
+            //         headers: {
+            //             Authorization: `Bearer ${token}`
+            //         }
+            //     })
+            //     .then(res => {
+            //         resolve(res);
+            //     })
+            //     .catch(e => {
+            //         reject(e);
+            //     });
+        });
+    },
     deleteAd({ commit }, { ad }) {
         return new Promise((resolve, reject) => {
             // const token = localStorage.getItem("token");
@@ -53,6 +89,7 @@ export default {
                     let ads = res.data.data;
                     for (let i = 0; ads.length > i; i++) {
                         let img = ads[i].image;
+                        if (img === null) continue;
                         img = img.replace('"', "").replace('"', "");
                         img = img.split(",");
                         ads[i].image = img;
