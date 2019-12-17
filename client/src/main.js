@@ -41,7 +41,6 @@ Vue.filter("formatDate", function(value) {
     }
 });
 
-// const token = localStorage.getItem("token");
 const token = VueCookies.get("token");
 
 Vue.prototype.$http = Axios;
@@ -55,6 +54,8 @@ if (token) {
         "Authorization"
     ] = `Bearer ${token}`;
 }
+
+if (!token) localStorage.removeItem("user");
 
 new Vue({
     store,

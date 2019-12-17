@@ -7,9 +7,8 @@
       border-variant="dark"
     >
       <b-container>
-        <template v-slot:header>Search</template>
-
-        <b-form class="mx-auto">
+        <h1 class="text-center mb-5">Your ads</h1>
+        <b-form class>
           <b-form-input v-model="search" class="w-75 mx-auto" size="lg" placeholder="Search"></b-form-input>
         </b-form>
       </b-container>
@@ -27,7 +26,7 @@
             class="mx-auto my-4"
           >
             <b-card-text>{{ad.description}}</b-card-text>
-            <b-button @click="redirect('ad', ad.id)" variant="primary">Go to ad</b-button>
+            <b-button @click="redirect('ad', ad.id)" variant="primary">View Ad</b-button>
           </b-card>
         </b-col>
       </b-row>

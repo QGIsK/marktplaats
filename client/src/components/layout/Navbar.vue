@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar id="navbar" toggleable="lg" type="dark" variant="dark">
       <b-container>
         <b-navbar-brand to="/">Marktplaats</b-navbar-brand>
 

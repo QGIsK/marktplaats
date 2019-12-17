@@ -8,7 +8,7 @@
       id="top"
     >
       <b-container>
-        <template v-slot:header>Search</template>
+        <h1 class="text-center mb-5">Home</h1>
 
         <b-form class="mx-auto">
           <b-form-input v-model="search" class="w-75 mx-auto" size="lg" placeholder="Search"></b-form-input>
@@ -59,7 +59,11 @@
           ></b-pagination>
         </b-col>
         <b-col cols="4">
-          <b-button class="ml-5 my-4 align-end" color="secondary" v-scroll-to="'#top'">Back to top</b-button>
+          <b-button
+            class="mr-5 my-4 float-right"
+            color="secondary"
+            v-scroll-to="'#navbar'"
+          >Back to top</b-button>
         </b-col>
       </b-row>
     </b-container>
