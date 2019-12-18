@@ -19,20 +19,22 @@
     <!-- img-src="https://picsum.photos/600/300/?image=25" -->
     <b-container>
       <b-row v-if="Object.keys(ads).length">
-        <b-col v-for="ad in ads" :key="ad.id">
-          <!-- {{ad}} -->
-          <b-card
-            :title="ad.title"
-            :img-src="ad.image[0]"
-            img-alt="Image of ad"
-            img-top
-            style="min-width: 20rem; max-width: 20rem;"
-            class="mx-auto my-4"
-          >
-            <b-card-text v-html="ad.description"></b-card-text>
-            <b-button @click="redirect('ad', ad.id)" variant="primary">View Ad</b-button>
-          </b-card>
-        </b-col>
+        <b-card-group columns>
+          <b-col v-for="ad in ads" :key="ad.id">
+            <!-- {{ad}} -->
+            <b-card
+              :title="ad.title"
+              :img-src="ad.image[0]"
+              img-alt="Image of ad"
+              img-top
+              style="min-width: 20rem; max-width: 20rem;"
+              class="mx-auto my-4"
+            >
+              <b-card-text v-html="ad.description"></b-card-text>
+              <b-button @click="redirect('ad', ad.id)" variant="primary">View Ad</b-button>
+            </b-card>
+          </b-col>
+        </b-card-group>
       </b-row>
       <b-row v-else>
         <b-col>

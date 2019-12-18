@@ -10,6 +10,9 @@ import MyAds from "@/components/pages/ads/MyAds";
 import ShowAd from "@/components/pages/ads/ShowAd";
 import NewAd from "@/components/pages/ads/NewAd";
 import EditAd from "@/components/pages/ads/EditAd";
+
+import MessagesIndex from "@/components/pages/messages/Index";
+
 import store from "../store/";
 
 Vue.use(Router);
@@ -51,6 +54,14 @@ let router = new Router({
             path: "/ad/:id/edit",
             name: "EditAd",
             component: EditAd,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/messages",
+            name: "MessagesIndex",
+            component: MessagesIndex,
             meta: {
                 requiresAuth: true
             }

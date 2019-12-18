@@ -235,7 +235,11 @@ export default {
         amount: this.newBid
       };
 
-      this.$http({ url: "/api/bid/", method: "post", data })
+      this.$http({
+        url: "/api/bid/",
+        method: "post",
+        data
+      })
         .then(res => {
           this.newBid = "";
           this.disableBid = true;

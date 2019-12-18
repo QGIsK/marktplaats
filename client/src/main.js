@@ -77,7 +77,7 @@ new Vue({
                 console.log("[UPDATING] DATA");
                 this.loadData();
             }.bind(this),
-            500000
+            60000
         );
     },
     beforeDestroy: function() {

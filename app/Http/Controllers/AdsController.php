@@ -17,7 +17,7 @@ class AdsController extends Controller
      */
     public function index()
     {
-        return AdsResource::collection(Ads::with('user')->latest()->get());
+        return AdsResource::collection(Ads::with('user')->sortBy('featuredAt')->get());
     }
 
     /**
@@ -38,6 +38,7 @@ class AdsController extends Controller
             'title' => $request->title,
             'description'  => $request->description,
             'image'  => json_encode($request->image),
+            'featuredAd' => Carbon::now()
         ]);
 
 

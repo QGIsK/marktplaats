@@ -14,8 +14,8 @@
             </b-nav-item-dropdown>
             <b-nav-item-dropdown :text="user.name" right>
               <b-dropdown-item>Profile</b-dropdown-item>
-              <b-dropdown-item href="#">Messages</b-dropdown-item>
-              <b-dropdown-item href="#">Settings</b-dropdown-item>
+              <b-dropdown-item to="/messages">Messages</b-dropdown-item>
+              <b-dropdown-item to="/user/settings">Settings</b-dropdown-item>
               <b-dropdown-item @click="logout">Logout</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
