@@ -10,7 +10,7 @@ class Ads extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'title', 'user_id', 'description', 'featured', 'image',
+        'title', 'user_id', 'description', 'featuredAt', 'image',
     ];
 
      public function user()
