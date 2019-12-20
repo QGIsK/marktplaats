@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +19,7 @@ class AdsController extends Controller
      */
     public function index()
     {
-        return AdsResource::collection(Ads::with('user')->latest()->get());
+        return AdsResource::collection(Ads::with('user')->latest('featuredAt')->get());
     }
 
     /**
@@ -38,10 +40,12 @@ class AdsController extends Controller
             'title' => $request->title,
             'description'  => $request->description,
             'image'  => json_encode($request->image),
-            'featuredAt' => date("Y/m/d")
+            'featuredAt' => Carbon::now()->toDateTimeString()
         ]);
 
-
+        
+        
+        $ad->categories()->attach($request->categories);
 
         return new AdsResource($ad);
     }
@@ -82,6 +86,8 @@ class AdsController extends Controller
             'description'  => $request->description,
             'image'  => json_encode($request->image),
         ]);
+
+        $ad->categories()->sync($request->categories);
         
         return new AdsResource($ad);
     }
