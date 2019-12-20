@@ -19,5 +19,8 @@ export default {
     },
     storeAds(state, { ads }) {
         state.ads = ads;
+    },
+    storeCategories(state, { categories }) {
+        state.categories = categories;
     }
 };

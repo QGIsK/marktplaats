@@ -6,5 +6,6 @@ export default {
     status: "",
     token: VueCookies.get("token") || "",
     user: JSON.parse(localStorage.getItem("user")) || {},
-    ads: []
+    ads: [],
+    categories: []
 };
