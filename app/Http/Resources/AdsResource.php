@@ -19,9 +19,9 @@ class AdsResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'image' => json_decode($this->image),
-            'featured' => $this->featured,
             'user_id' => $this->user_id,
             'user' => $this->user,
+            'featuredAt' => (string) $this->featuredAt,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
         ];
