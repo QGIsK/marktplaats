@@ -66,6 +66,7 @@ new Vue({
     methods: {
         loadData: () => {
             store.dispatch("getAds");
+            store.dispatch("getCategories");
         }
     },
     mounted: function() {
@@ -77,7 +78,7 @@ new Vue({
                 console.log("[UPDATING] DATA");
                 this.loadData();
             }.bind(this),
-            60000
+            1200000
         );
     },
     beforeDestroy: function() {
