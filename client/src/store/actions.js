@@ -102,6 +102,19 @@ export default {
                 });
         });
     },
+    getCategories({ commit }) {
+        axios({
+            url: "/api/category",
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${VueCookies.get("token")}`
+            }
+        })
+            .then(res => {
+                commit("storeCategories", { categories: res.data.data });
+            })
+            .catch(e => console.log(e));
+    },
     login({ commit }, user) {
         return new Promise((resolve, reject) => {
             commit("auth_request");
