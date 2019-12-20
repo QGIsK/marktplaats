@@ -84,6 +84,11 @@ export default {
       get() {
         return this.$store.getters.ads;
       }
+    },
+    categories: {
+      get() {
+        return this.$store.getters.categories;
+      }
     }
   },
   methods: {
