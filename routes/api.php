@@ -34,30 +34,35 @@ Route::prefix('users')->group(function () {
     });
 });
 
-Route::prefix("bid")->group(function() {
-     Route::get("/{ad}", 'BidController@index');
+Route::prefix("bid")->group(function () {
+    Route::get("/{ad}", 'BidController@index');
     // Route::get("/{ad}", 'BidController@show');
-    
-    Route::group(['middleware' => 'auth:api'], function() {
+
+    Route::group(['middleware' => 'auth:api'], function () {
         Route::post("/", 'BidController@store');
-        Route::delete("/{bid}", 'BidController@destroy');        
+        Route::delete("/{bid}", 'BidController@destroy');
     });
 });
 
-Route::prefix("ads")->group(function() {
+Route::prefix("ads")->group(function () {
     Route::get("/", 'AdsController@index');
     // Route::get("/{ad}", 'AdsController@show');
-    
-    Route::group(['middleware' => 'auth:api'], function() {
+
+    Route::group(['middleware' => 'auth:api'], function () {
         Route::post("/", 'AdsController@store');
         Route::put("/{ad}", 'AdsController@update');
-        Route::delete("/{ad}", 'AdsController@destroy');        
+        Route::delete("/{ad}", 'AdsController@destroy');
     });
-    
 });
 
-
-
+Route::prefix("category")->group(function () {
+    Route::get('/', 'CategoryController@index');
+    // Route::group(['middleware' => ['auth:api', 'isAdmin']], function () {
+    //     Route::post('/', 'CategoryController@store');
+    //     Route::put('/{tag}', 'CategoryController@update');
+    //     Route::delete('/{tag}', 'CategoryController@destroy');
+    // });
+});
 
 Route::prefix('file')->group(function () {
     Route::group(['middleware' => 'auth:api'], function () {
