@@ -10,11 +10,20 @@ class Ads extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'title', 'user_id', 'description', 'featuredAt', 'image',
+        'title',
+        'user_id',
+        'description',
+        'featuredAt',
+        'image',
+        'categories'
     ];
 
-     public function user()
+    public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 }
