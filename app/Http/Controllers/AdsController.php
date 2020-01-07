@@ -19,7 +19,11 @@ class AdsController extends Controller
      */
     public function index()
     {
-        return AdsResource::collection(Ads::with('user')->latest('featuredAt')->get());
+        return AdsResource::collection(
+            Ads::with('user')
+                ->latest('featuredAt')
+                ->get()
+        );
     }
 
     /**
@@ -31,25 +35,26 @@ class AdsController extends Controller
 
     public function store(Request $request)
     {
-        if(!$request->title || !$request->description) {
-            return response()->json(['error' => 'Please provide all fields'], 422);
+        if (!$request->title || !$request->description) {
+            return response()->json(
+                ['error' => 'Please provide all fields'],
+                422
+            );
         }
 
         $ad = Ads::create([
             'user_id' => $request->user()->id,
             'title' => $request->title,
-            'description'  => $request->description,
-            'image'  => json_encode($request->image),
+            'description' => $request->description,
+            'image' => json_encode($request->image),
             'featuredAt' => Carbon::now()->toDateTimeString()
         ]);
 
-        
-        
         $ad->categories()->attach($request->categories);
 
         return new AdsResource($ad);
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -71,24 +76,26 @@ class AdsController extends Controller
      */
     public function update(Request $request, Ads $ad)
     {
-
-        if(Auth::user()->role === 2 || Auth::user()->id != $ad->user_id ) {
-            return response()->json(['error' => 'Unauthorized'], 403);    
+        if (Auth::user()->role === 2 || Auth::user()->id != $ad->user_id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
-        
-        if(!$request->title || !$request->description) {
-            return response()->json(['error' => 'Please provide all fields'], 422);
+
+        if (!$request->title || !$request->description) {
+            return response()->json(
+                ['error' => 'Please provide all fields'],
+                422
+            );
         }
 
         $image = json_encode($request->image);
         $ad->update([
             'title' => $request->title,
-            'description'  => $request->description,
-            'image'  => json_encode($request->image),
+            'description' => $request->description,
+            'image' => json_encode($request->image)
         ]);
 
         $ad->categories()->sync($request->categories);
-        
+
         return new AdsResource($ad);
     }
 
@@ -98,11 +105,11 @@ class AdsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
     public function destroy(Ads $ad)
     {
-        if(Auth::user()->role === 2 || Auth::user()->id != $ad->user_id ) {
-            return response()->json(['error' => 'Unauthorized'], 403);    
+        if (Auth::user()->role === 2 || Auth::user()->id != $ad->user_id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
         $ad->delete();

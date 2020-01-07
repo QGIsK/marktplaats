@@ -23,13 +23,7 @@
           label-for="input-2"
           description="What are you trying to sell?"
         >
-          <b-form-input
-            id="input-2"
-            v-model="title"
-            type="text"
-            required
-            placeholder="Enter title  "
-          ></b-form-input>
+          <b-form-input id="input-2" v-model="title" type="text" required placeholder="Enter title"></b-form-input>
         </b-form-group>
 
         <b-form-group
@@ -41,6 +35,22 @@
           <wysiwyg id="body" v-model="description" />
         </b-form-group>
 
+        <!-- <v-list-tile v-for="category in allCategories" :key="category.id"> -->
+        <!-- <v-switch
+              color="primary darken-3"
+              v-model="categories"
+              :label="category.tag"
+              :value="category.id"
+            ></v-switch>
+        -->
+
+        <b-form-group label="Categories:">
+          <b-form-checkbox-group v-model="selectedCategories">
+            <span v-for="cat in categories" :key="cat.id">
+              <b-form-checkbox :value="cat.id">{{cat.tag}}</b-form-checkbox>
+            </span>
+          </b-form-checkbox-group>
+        </b-form-group>
         <b-button type="submit" variant="primary">Create</b-button>
         <b-button type="reset" variant="danger" class="ml-2">Clear</b-button>
       </b-form>
@@ -69,11 +79,11 @@ export default {
       title: "",
       description: "",
       image: "",
-
+      selectedCategories: [],
       dropzoneOptions: {
         url: "http://localhost:8000/api/file/",
         thumbnailWidth: 150,
-        maxFilesize: 10,
+        maxFilesize: 3,
         maxFiles: 5,
         headers: { Authorization: `Bearer ${VueCookies.get("token")}` }
       }
@@ -118,7 +128,8 @@ export default {
       const data = {
         title: this.title,
         description: this.description,
-        image: this.image
+        image: this.image,
+        categories: this.selectedCategories
       };
 
       this.$store

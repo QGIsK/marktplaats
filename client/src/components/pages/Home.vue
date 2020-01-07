@@ -55,6 +55,7 @@
           <b-pagination
             class="ml-5 my-4"
             v-model="currentPage"
+            v-if="ads.length > perPage"
             :total-rows="rows"
             :per-page="perPage"
             aria-controls="my-table"
@@ -99,7 +100,11 @@ export default {
     allAds: {
       get() {
         let ads = this.$store.getters.ads;
+        if (!ads || ads == null) return;
         for (let i = 0; ads > i; i++) {
+          if (ads[i].image == null)
+            return (ads[i].image =
+              "https://images.unsplash.com/photo-1578333607401-9e1f5503fd11?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80");
           let img = ads[i].image;
           img = img.replace('"', "").replace('"', "");
           img = img.split(",");
@@ -120,6 +125,7 @@ export default {
         //     ad.image = image;
         //   });
         // }
+
         return this.$store.getters.ads.slice(0, 25);
       }
     }

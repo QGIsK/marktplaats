@@ -16,9 +16,6 @@
             <b-carousel-slide v-for="image in ad.image" :key="image" :img-src="image"></b-carousel-slide>
           </b-carousel>
           <b-card-text class="my-4" v-html="ad.description"></b-card-text>
-
-          <b-button v-if="isAdOwner" v-b-modal.deleteModal variant="danger" class="mr-2">Delete</b-button>
-          <b-button v-if="isAdOwner" @click="editAd" variant="info">Edit</b-button>
         </b-card>
         <!-- <b-card title="Images of item" class="w-75 mx-auto my-4">
           <b-carousel
@@ -82,7 +79,10 @@
         <b-card class="w-50 mt-5 my-4" title="Bids on item" v-else>
           <span>There are no bids on this item yet</span>
         </b-card>
-        <!-- </b-col> -->
+        <div v-if="isAdOwner">
+          <b-button v-if="isAdOwner" @click="editAd" variant="info" class="ml-3">Edit</b-button>
+          <b-button v-if="isAdOwner" v-b-modal.deleteModal variant="danger" class="ml-2">Delete</b-button>
+        </div>
       </b-col>
     </b-row>
     <b-row class="mt-5 mx-5" v-else>
