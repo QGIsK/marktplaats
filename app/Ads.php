@@ -15,7 +15,8 @@ class Ads extends Model
         'description',
         'featuredAt',
         'image',
-        'categories'
+        'categories',
+        'postalCode'
     ];
 
     public function user()
