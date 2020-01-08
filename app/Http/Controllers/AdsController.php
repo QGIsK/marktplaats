@@ -42,9 +42,10 @@ class AdsController extends Controller
             );
         }
 
-        $ad = Ads::create([
+        $ad = Ads::create([ 
             'user_id' => $request->user()->id,
             'title' => $request->title,
+            'postalCode' => $request->postalCode,
             'description' => $request->description,
             'image' => json_encode($request->image),
             'featuredAt' => Carbon::now()->toDateTimeString()
@@ -90,6 +91,7 @@ class AdsController extends Controller
         $image = json_encode($request->image);
         $ad->update([
             'title' => $request->title,
+            'postalCode' => $request->postalCode,
             'description' => $request->description,
             'image' => json_encode($request->image)
         ]);
