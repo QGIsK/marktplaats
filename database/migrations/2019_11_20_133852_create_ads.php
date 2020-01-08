@@ -18,9 +18,14 @@ class CreateAds extends Migration
             $table->timestamps();
             $table->unsignedInteger('user_id');
             $table->dateTime('featuredAt');
+            $table->string('postalCode');
             $table->string("title");
             $table->longText("description");
-            $table->longText("image")->default("https://images.unsplash.com/photo-1574322288467-3248703be63f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80");
+            $table
+                ->longText("image")
+                ->default(
+                    "https://images.unsplash.com/photo-1574322288467-3248703be63f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80"
+                );
             $table->softDeletes();
         });
     }
