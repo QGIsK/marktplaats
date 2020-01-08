@@ -16,14 +16,16 @@ class AdsResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'description' => $this->description,
-            'image' => json_decode($this->image),
-            'user_id' => $this->user_id,
             'user' => $this->user,
+            'title' => $this->title,
+            'user_id' => $this->user_id,
+            'description' => $this->description,
+            'postalCode' => $this->postalCode,
+            'categories' => $this->categories,
+            'image' => json_decode($this->image),
             'featuredAt' => (string) $this->featuredAt,
             'created_at' => (string) $this->created_at,
-            'updated_at' => (string) $this->updated_at,
+            'updated_at' => (string) $this->updated_at
         ];
     }
 }
