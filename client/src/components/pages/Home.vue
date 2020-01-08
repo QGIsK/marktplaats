@@ -11,16 +11,41 @@
         <h1 class="text-center mb-5">Home</h1>
 
         <b-form class="mx-auto">
-          <b-form-input v-model="search" class="w-75 mx-auto" size="lg" placeholder="Search"></b-form-input>
+          <b-form-input v-model="search" class="w-50 mx-auto" size="lg" placeholder="Search"></b-form-input>
+        </b-form>
+        <b-form inline class="mt-3 mx-auto">
+          <div class="mx-auto">
+            <b-form-input v-model="postal" prepend class="w-50" size="lg" placeholder="Postal code"></b-form-input>
+            <b-form-select
+              :value="null"
+              class="ml-3"
+              :options="{ '5': '5 < ', '10': '10 < ', '15': '15 < ' }"
+              id="inline-form-custom-select-pref"
+            >
+              <template v-slot:first>
+                <option :value="null">Distance</option>
+              </template>
+            </b-form-select>
+            <div class="mx-auto mt-3">
+              <b-form-group>
+                <b-form-checkbox-group v-model="filterCategories">
+                  <span v-for="cat in categories" :key="cat.id">
+                    <b-form-checkbox :value="cat.id">{{cat.tag}}</b-form-checkbox>
+                  </span>
+                </b-form-checkbox-group>
+              </b-form-group>
+            </div>
+          </div>
         </b-form>
       </b-container>
     </b-jumbotron>
 
     <!-- img-src="https://picsum.photos/600/300/?image=25" -->
+
     <b-container>
       <b-row v-if="Object.keys(ads).length">
         <b-card-group columns>
-          <b-col v-for="ad in ads" :key="ad.id">
+          <b-col class="mr-3" v-for="ad in ads" :key="ad.id">
             <!-- {{ad}} -->
             <b-card
               :title="ad.title"
@@ -80,7 +105,9 @@ export default {
     return {
       search: "",
       perPage: 25,
-      currentPage: 1
+      currentPage: 1,
+      filterCategories: [],
+      postal: ""
     };
   },
   computed: {
@@ -94,39 +121,32 @@ export default {
         const max = this.currentPage * this.perPage;
         const min = max - this.perPage;
 
-        return this.$store.getters.ads.slice(min, max);
+        return this.allAds.slice(min, max);
+      }
+    },
+    categories: {
+      get() {
+        return this.$store.getters.categories;
       }
     },
     allAds: {
       get() {
         let ads = this.$store.getters.ads;
-        if (!ads || ads == null) return;
-        for (let i = 0; ads > i; i++) {
-          if (ads[i].image == null)
-            return (ads[i].image =
-              "https://images.unsplash.com/photo-1578333607401-9e1f5503fd11?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80");
-          let img = ads[i].image;
-          img = img.replace('"', "").replace('"', "");
-          img = img.split(",");
-          ads[i].image = img;
-        }
-
-        if (this.search.length > 0)
-          return this.$store.getters.ads.filter(ad =>
+        if (this.search.length > 0) {
+          ads = ads.filter(ad =>
             ad.title.toLowerCase().includes(this.search.toLowerCase())
           );
+        }
 
-        // console.log(this.$store.getters.ads[0]);
-        // if (this.$store.getters.ads) {
-        //   this.$store.getters.ads.forEach(ad => {
-        //     let image = ad.image;
-        //     image = image.replace('"', "").replace('"', "");
-        //     image = image.split(",");
-        //     ad.image = image;
-        //   });
-        // }
+        if (this.filterCategories.length > 0) {
+          ads = ads.filter(ad =>
+            ad.categories.find(category => {
+              return this.filterCategories.includes(category.id);
+            })
+          );
+        }
 
-        return this.$store.getters.ads.slice(0, 25);
+        return ads;
       }
     }
   },
