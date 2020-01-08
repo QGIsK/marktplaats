@@ -35,22 +35,18 @@
           <wysiwyg id="body" v-model="description" />
         </b-form-group>
 
-        <!-- <v-list-tile v-for="category in allCategories" :key="category.id"> -->
-        <!-- <v-switch
-              color="primary darken-3"
-              v-model="categories"
-              :label="category.tag"
-              :value="category.id"
-            ></v-switch>
-        -->
-
-        <b-form-group label="Categories:">
+        <b-form-group label="Categories:" inline>
           <b-form-checkbox-group v-model="selectedCategories">
             <span v-for="cat in categories" :key="cat.id">
               <b-form-checkbox :value="cat.id">{{cat.tag}}</b-form-checkbox>
             </span>
           </b-form-checkbox-group>
         </b-form-group>
+
+        <b-form-group label="Postal code">
+          <b-form-input v-model="postalCode" class="w-25" type="text" required placeholder="1234hz"></b-form-input>
+        </b-form-group>
+
         <b-button type="submit" variant="primary">Create</b-button>
         <b-button type="reset" variant="danger" class="ml-2">Clear</b-button>
       </b-form>
@@ -79,7 +75,9 @@ export default {
       title: "",
       description: "",
       image: "",
+      postalCode: "",
       selectedCategories: [],
+
       dropzoneOptions: {
         url: "http://localhost:8000/api/file/",
         thumbnailWidth: 150,
@@ -127,8 +125,9 @@ export default {
 
       const data = {
         title: this.title,
-        description: this.description,
         image: this.image,
+        description: this.description,
+        postalCode: this.postalCode,
         categories: this.selectedCategories
       };
 
@@ -189,6 +188,8 @@ export default {
 
       this.title = "";
       this.description = "";
+      this.categories = [];
+      this.postalCode = "";
 
       this.show = false;
       this.$nextTick(() => {
