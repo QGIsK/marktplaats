@@ -2,20 +2,40 @@
   <div>
     <b-row class="mt-5 mx-5" v-if="ad">
       <b-col cols="8">
-        <b-card class="w-75 mx-auto my-4" :title="ad.title" img-alt="Image of ad" img-top>
-          <!-- :img-src="ad.image[0]" -->
-          <b-carousel
-            id="header-slider"
-            v-model="slide"
-            :interval="4000"
-            controls
-            background="transparent"
-            @sliding-start="onSlideStart"
-            @sliding-end="onSlideEnd"
-          >
-            <b-carousel-slide v-for="image in ad.image" :key="image" :img-src="image"></b-carousel-slide>
-          </b-carousel>
-          <b-card-text class="my-4" v-html="ad.description"></b-card-text>
+        <b-card class="w-75 mx-auto" outlined>
+          <div class="mx-auto mt-2">
+            <h2 class>{{ad.title}}</h2>
+            <span v-for="category in ad.categories" :key="category.id">
+              <b-badge variant="info" pill class="mr-2">{{category.tag}}</b-badge>
+            </span>
+          </div>
+          <!-- :title="ad.title" -->
+          <div class="w-100 mx-auto my-4" img-alt="Image of ad" img-top>
+            <!-- :img-src="ad.image[0]" -->
+
+            <b-carousel
+              v-if="ad.image.length > 1"
+              v-model="slide"
+              :interval="4000"
+              controls
+              background="transparent"
+              @sliding-start="onSlideStart"
+              @sliding-end="onSlideEnd"
+            >
+              <b-carousel-slide v-for="image in ad.image" :key="image" :img-src="image"></b-carousel-slide>
+            </b-carousel>
+            <b-carousel
+              v-else
+              v-model="slide"
+              :interval="4000"
+              background="transparent"
+              @sliding-start="onSlideStart"
+              @sliding-end="onSlideEnd"
+            >
+              <b-carousel-slide v-for="image in ad.image" :key="image" :img-src="image"></b-carousel-slide>
+            </b-carousel>
+            <p class="my-4" v-html="ad.description"></p>
+          </div>
         </b-card>
         <!-- <b-card title="Images of item" class="w-75 mx-auto my-4">
           <b-carousel
@@ -45,7 +65,7 @@
             Member since: {{ad.user.created_at || formatDate}}
           </b-card-text>
 
-          <b-button @click="redirect('user', ad.user.id)" variant="primary">View profile</b-button>
+          <b-button @click="redirect('user', ad.user.id)" variant="info">View profile</b-button>
         </b-card>
         <!-- <b-col cols="4"> -->
 
@@ -80,6 +100,13 @@
           <span>There are no bids on this item yet</span>
         </b-card>
         <div v-if="isAdOwner">
+          <b-button
+            v-if="isAdOwner"
+            @click="path(`/ad/${ad.id}/boost`)"
+            variant="info"
+            class="mb-2 ml-3"
+          >Boost back up for 10$</b-button>
+          <br />
           <b-button v-if="isAdOwner" @click="editAd" variant="info" class="ml-3">Edit</b-button>
           <b-button v-if="isAdOwner" v-b-modal.deleteModal variant="danger" class="ml-2">Delete</b-button>
         </div>
@@ -265,6 +292,9 @@ export default {
     },
     onSlideEnd() {
       this.sliding = false;
+    },
+    path(path) {
+      this.$router.push(path);
     },
     redirect(type, id) {
       this.$router.push(`/${type}/${id}`);
