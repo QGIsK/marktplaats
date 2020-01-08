@@ -40,6 +40,17 @@
         >
           <wysiwyg id="body" v-model="description" />
         </b-form-group>
+        <b-form-group label="Categories:">
+          <b-form-checkbox-group v-model="categories">
+            <span v-for="cat in allCategories" :key="cat.id">
+              <b-form-checkbox :value="cat.id">{{cat.tag}}</b-form-checkbox>
+            </span>
+          </b-form-checkbox-group>
+        </b-form-group>
+
+        <b-form-group label="Postal code">
+          <b-form-input v-modal="postalCode" class="w-25" type="text" required placeholder="1234hz"></b-form-input>
+        </b-form-group>
 
         <b-button type="submit" variant="primary">Edit</b-button>
         <b-button type="reset" variant="danger" class="ml-2">Clear</b-button>
@@ -61,8 +72,10 @@ export default {
       show: true,
 
       title: "",
-      description: "",
       image: "",
+      postalCode: "",
+      description: "",
+      categories: [],
 
       dropzoneOptions: {
         url: "http://localhost:8000/api/file/",
@@ -90,6 +103,11 @@ export default {
         return this.$store.getters.ads;
       }
     },
+    allCategories: {
+      get() {
+        return this.$store.getters.categories;
+      }
+    },
     isAdOwner: {
       get() {
         if (!this.ad) return false;
@@ -111,9 +129,14 @@ export default {
   methods: {
     setData(ad) {
       if (!ad) return;
+      this.categories = [];
       this.title = ad.title;
-      this.description = ad.description;
+      this.postalCode = ad.postalCode;
       this.image = ad.image.join(",");
+      this.description = ad.description;
+      ad.categories.forEach(cat => {
+        this.categories.push(cat.id);
+      });
       this.dropzoneOptions.maxFiles =
         this.ad.image.length <= 0 ? 5 : Math.abs(this.ad.image.length - 5);
 
@@ -145,8 +168,10 @@ export default {
       const data = {
         id: this.ad.id,
         title: this.title,
+        image: this.image,
+        postalCode: this.postalCode,
         description: this.description,
-        image: this.image
+        categories: this.categories
       };
 
       this.$store
@@ -185,6 +210,8 @@ export default {
 
       this.title = "";
       this.description = "";
+      this.categories = [];
+      this.postalCode = "";
 
       this.show = false;
       this.$nextTick(() => {
