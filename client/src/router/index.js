@@ -9,6 +9,7 @@ import Login from "@/components/pages/auth/Login";
 import MyAds from "@/components/pages/ads/MyAds";
 import ShowAd from "@/components/pages/ads/ShowAd";
 import NewAd from "@/components/pages/ads/NewAd";
+import BoostAd from "@/components/pages/ads/BoostAd";
 import EditAd from "@/components/pages/ads/EditAd";
 
 import MessagesIndex from "@/components/pages/messages/Index";
@@ -70,6 +71,11 @@ let router = new Router({
             path: "/ad/:id",
             name: "ShowAd",
             component: ShowAd
+        },
+        {
+            path: "/ad/:id/boost",
+            name: "BoostAd",
+            component: BoostAd
         }
     ]
 });
