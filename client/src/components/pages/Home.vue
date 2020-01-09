@@ -19,7 +19,7 @@
             <b-form-select
               :value="null"
               class="ml-3"
-              :options="{ '5': '5 < ', '10': '10 < ', '15': '15 < ' }"
+              :options="{ '5': '5 < ', '10': '10 < ', '15': '15 < ', '20': '20 <', '25': '25 <' }"
               id="inline-form-custom-select-pref"
             >
               <template v-slot:first>
