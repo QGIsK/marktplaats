@@ -1,6 +1,6 @@
 <template>
   <div v-if="ad">
-    <v-btn @click="featureAd">Feature ad</v-btn>
+    <b-button @click="featureAd">Feature ad</b-button>
   </div>
 </template>
 
@@ -11,15 +11,9 @@ export default {
   computed: {
     ad: {
       get() {
-        let ad = this.ads.filter(ad => {
+        let ad = this.$store.getters.ads.filter(ad => {
           return String(ad.id) === this.$route.params.id;
         })[0];
-
-        if (
-          !ad.user_id === this.$store.getters.userId ||
-          !this.$store.getters.isAdmin
-        )
-          return;
 
         return ad;
       }
@@ -36,7 +30,7 @@ export default {
   },
   methods: {
     featureAd() {
-      this.$store.dispatch("featureAd", {});
+      this.$store.dispatch("featureAd", { ad: this.ad });
     }
   }
 };
