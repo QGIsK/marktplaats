@@ -57,11 +57,6 @@ Route::prefix("ads")->group(function () {
 
 Route::prefix("category")->group(function () {
     Route::get('/', 'CategoryController@index');
-    // Route::group(['middleware' => ['auth:api', 'isAdmin']], function () {
-    //     Route::post('/', 'CategoryController@store');
-    //     Route::put('/{tag}', 'CategoryController@update');
-    //     Route::delete('/{tag}', 'CategoryController@destroy');
-    // });
 });
 
 Route::prefix('file')->group(function () {
@@ -70,5 +65,11 @@ Route::prefix('file')->group(function () {
     });
     Route::group(['middleware' => ['auth:api, isAdmin']], function () {
         Route::delete("/{slug}", 'FileController@delete');
+    });
+});
+
+Route::prefix("feature")->group(function () {
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::post("/{ad}", 'FeatureController@store');
     });
 });

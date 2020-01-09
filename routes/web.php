@@ -12,3 +12,8 @@
 */
 
 // Route::get('/{any}', 'SinglePageController@index')->where('any', '.*');
+
+Route::name('webhooks.mollie')->post(
+    'webhooks/mollie',
+    'MollieWebhookController@handle'
+);
