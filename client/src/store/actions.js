@@ -102,6 +102,18 @@ export default {
                 });
         });
     },
+    featureAd({ commit }, { ad }) {
+        axios({
+            url: `/api/feature/${ad._id}/`,
+            method: "POST"
+        })
+            .then(res => {
+                console.log(res);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    },
     getCategories({ commit }) {
         axios({
             url: "/api/category",
