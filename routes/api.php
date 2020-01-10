@@ -46,6 +46,7 @@ Route::prefix("bid")->group(function () {
 
 Route::prefix("ads")->group(function () {
     Route::get("/", 'AdsController@index');
+    Route::post("/search", 'AdsController@search');
     // Route::get("/{ad}", 'AdsController@show');
 
     Route::group(['middleware' => 'auth:api'], function () {
