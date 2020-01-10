@@ -19,6 +19,8 @@ class CreateAds extends Migration
             $table->unsignedInteger('user_id');
             $table->dateTime('featuredAt');
             $table->string('postalCode');
+            $table->double('lat');
+            $table->double('long');
             $table->string("title");
             $table->longText("description");
             $table
