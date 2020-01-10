@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use Haversini\Haversini;
+
 use App\Ads;
 use App\Http\Resources\AdsResource;
 
@@ -53,7 +55,6 @@ class AdsController extends Controller
 
         $lat = $postal->latitude;
         $long = $postal->longitude;
-
 
         $ad = Ads::create([
             'user_id' => $request->user()->id,
@@ -135,12 +136,7 @@ class AdsController extends Controller
 
     public function search(Request $request)
     {
-        $distance = $request->distance;
-        $params = $request->params;
-
-        $postal = DB::table('4pp')
-            ->where('postcode', $request->postalCode)
-            ->first();
+        $maxDistance = $request->distance;
 
         $ads = AdsResource::collection(
             Ads::with('user')
@@ -148,10 +144,30 @@ class AdsController extends Controller
                 ->get()
         );
 
-        foreach ($ads as $ad) {
-            
+        if (!$maxDistance || !$request->postalCode) {
+            return response()->json($ads);
         }
 
-        return response()->json($ads, 200);
+        $postal = DB::table('4pp')
+            ->where('postcode', $request->postalCode)
+            ->first();
+
+        $resp = [];
+
+        foreach ($ads as $ad) {
+            $distance = Haversini::calculate(
+                $postal->latitude,
+                $postal->longitude,
+                $ad->lat,
+                $ad->long,
+                'km'
+            );
+
+            if ($distance < $maxDistance) {
+                $resp[] = $ad;
+            }
+        }
+
+        return response()->json($resp, 200);
     }
 }
