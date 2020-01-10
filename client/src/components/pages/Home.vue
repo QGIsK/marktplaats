@@ -13,12 +13,13 @@
         <b-form class="mx-auto">
           <b-form-input v-model="search" class="w-50 mx-auto" size="lg" placeholder="Search"></b-form-input>
         </b-form>
-        <b-form inline class="mt-3 mx-auto">
+        <b-form inline class="mt-3 mx-auto" @submit.prevent="searchDistance()">
           <div class="mx-auto">
             <b-form-input v-model="postal" prepend class="w-50" size="lg" placeholder="Postal code"></b-form-input>
             <b-form-select
               :value="null"
               class="ml-3"
+              v-model="maxDistance"
               :options="{ '5': '5 < ', '10': '10 < ', '15': '15 < ', '20': '20 <', '25': '25 <' }"
               id="inline-form-custom-select-pref"
             >
@@ -107,7 +108,8 @@ export default {
       perPage: 25,
       currentPage: 1,
       filterCategories: [],
-      postal: ""
+      postal: "",
+      maxDistance: null
     };
   },
   computed: {
@@ -156,8 +158,31 @@ export default {
   methods: {
     redirect(type, id) {
       this.$router.push(`/${type}/${id}`);
+    },
+    searchDistance() {
+      this.$http({
+        url: "/api/ads/search",
+        method: "POST",
+        data: {
+          postalCode: this.postal,
+          distance: this.maxDistance
+        }
+      })
+        .then(res => {
+          let ads = res.data;
+
+          for (let i = 0; ads.length > i; i++) {
+            let img = ads[i].image;
+            if (img === null) continue;
+            img = img.replace('"', "").replace('"', "");
+            img = img.split(",");
+            ads[i].image = img;
+          }
+
+          this.$store.state.ads = ads;
+        })
+        .catch(e => console.log(e));
     }
   }
 };
 </script>
-
