@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
+
 use Mollie\Laravel\Facades\Mollie;
 
 use App\Ads;
@@ -17,6 +17,7 @@ class FeatureController extends Controller
         if (Auth::user()->role === 2 || Auth::user()->id != $ad->user_id) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
+
         $payment = Mollie::api()
             ->payments()
             ->create([
@@ -24,14 +25,14 @@ class FeatureController extends Controller
                     'currency' => 'EUR',
                     'value' => '10.00'
                 ],
-                'description' => 'My first API payment',
+                'description' => 'Feature ad',
                 'webhookUrl' => route('webhooks.mollie'),
-                // 'redirectUrl' =>
                 "metadata" => [
                     "ad_id" => $ad->id
                 ]
             ]);
 
+            
         $payment = Mollie::api()
             ->payments()
             ->get($payment->id);
