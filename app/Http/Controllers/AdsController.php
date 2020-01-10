@@ -6,6 +6,7 @@ use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use App\Ads;
 use App\Http\Resources\AdsResource;
@@ -35,17 +36,31 @@ class AdsController extends Controller
 
     public function store(Request $request)
     {
-        if (!$request->title || !$request->description) {
+        if (
+            !$request->title ||
+            !$request->description ||
+            !$request->postalCode
+        ) {
             return response()->json(
                 ['error' => 'Please provide all fields'],
                 422
             );
         }
 
-        $ad = Ads::create([ 
+        $postal = DB::table('4pp')
+            ->where('postcode', $request->postalCode)
+            ->first();
+
+        $lat = $postal->latitude;
+        $long = $postal->longitude;
+
+
+        $ad = Ads::create([
             'user_id' => $request->user()->id,
             'title' => $request->title,
             'postalCode' => $request->postalCode,
+            'lat' => $lat,
+            'long' => $long,
             'description' => $request->description,
             'image' => json_encode($request->image),
             'featuredAt' => Carbon::now()->toDateTimeString()
@@ -116,5 +131,27 @@ class AdsController extends Controller
 
         $ad->delete();
         return response()->json(null, 204);
+    }
+
+    public function search(Request $request)
+    {
+        $distance = $request->distance;
+        $params = $request->params;
+
+        $postal = DB::table('4pp')
+            ->where('postcode', $request->postalCode)
+            ->first();
+
+        $ads = AdsResource::collection(
+            Ads::with('user')
+                ->latest('featuredAt')
+                ->get()
+        );
+
+        foreach ($ads as $ad) {
+            
+        }
+
+        return response()->json($ads, 200);
     }
 }
