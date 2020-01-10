@@ -15,6 +15,8 @@ class Ads extends Model
         'description',
         'featuredAt',
         'image',
+        'lat',
+        'long',
         'categories',
         'postalCode'
     ];
@@ -23,6 +25,7 @@ class Ads extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
     public function categories()
     {
         return $this->belongsToMany(Category::class);
