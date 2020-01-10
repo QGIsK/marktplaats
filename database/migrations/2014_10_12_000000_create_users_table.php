@@ -18,10 +18,11 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable();
             $table->integer('role')->default(1);
             $table->string('email')->unique();
-            $table->string('image')->default("https://images.unsplash.com/photo-1574321756605-4611fe4ed1a6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1360&q=80");
-            $table->string('country')->nullable();
-            $table->string('province')->nullable();
-            $table->string('city')->nullable();
+            $table
+                ->string('image')
+                ->default(
+                    "https://images.unsplash.com/photo-1574321756605-4611fe4ed1a6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1360&q=80"
+                );
             $table->string('postalcode')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
