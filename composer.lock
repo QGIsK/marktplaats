@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b680b0d692a52973d26a48c3f4e34f59",
+    "content-hash": "9038c3894ad9f6f8f03cca3e47766358",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -712,6 +712,51 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "jordanbrauer/unit-converter",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jordanbrauer/unit-converter.git",
+                "reference": "6278a31677989c64cd7e1b17b235beac5e5287c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jordanbrauer/unit-converter/zipball/6278a31677989c64cd7e1b17b235beac5e5287c6",
+                "reference": "6278a31677989c64cd7e1b17b235beac5e5287c6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "codedungeon/phpunit-result-printer": "^0.19.12",
+                "consolidation/robo": "^1.2",
+                "phpmetrics/phpmetrics": "^2.4",
+                "phpunit/phpunit": "^6.3",
+                "symfony/var-dumper": "^3.3",
+                "vlucas/phpdotenv": "^2.4"
+            },
+            "type": "component",
+            "autoload": {
+                "psr-4": {
+                    "UnitConverter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "jordanbrauer",
+                    "email": "18744334+jordanbrauer@users.noreply.github.com"
+                }
+            ],
+            "description": "Convert standard units from one to another with this easy to use, lightweight package",
+            "time": "2019-12-02T17:55:47+00:00"
         },
         {
             "name": "laravel/framework",
@@ -1982,6 +2027,53 @@
                 "shell"
             ],
             "time": "2018-10-13T15:16:03+00:00"
+        },
+        {
+            "name": "rafaelfragoso/haversini-formula",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orafaelfragoso/php-haversine-formula.git",
+                "reference": "122ef2efdad2cab49aa066b4b00d4d0994924db6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orafaelfragoso/php-haversine-formula/zipball/122ef2efdad2cab49aa066b4b00d4d0994924db6",
+                "reference": "122ef2efdad2cab49aa066b4b00d4d0994924db6",
+                "shasum": ""
+            },
+            "require": {
+                "jordanbrauer/unit-converter": "dev-master",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/php-code-coverage": "^6.1",
+                "phpunit/phpunit": "~7.0",
+                "symfony/var-dumper": "^4.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Haversini\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rafael Fragoso",
+                    "email": "rafaelfragosom@gmail.com"
+                },
+                {
+                    "name": "Leonardo do Carmo",
+                    "email": "leonardo.docarmo@hotmail.com"
+                }
+            ],
+            "description": "This PHP class can replace the Google Distance Matrix to calculate the distance between two points using latitude and longitude. It will prevent you to do massive requests to Google servers and enhance your service performance.",
+            "homepage": "https://github.com/rafaelfragosom/php-haversine-formula",
+            "time": "2019-10-06T19:34:51+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
