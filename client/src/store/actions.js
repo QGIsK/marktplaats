@@ -104,7 +104,7 @@ export default {
     },
     featureAd({ commit }, { ad }) {
         axios({
-            url: `/api/feature/${ad._id}/`,
+            url: `/api/feature/${ad.id}/`,
             method: "POST"
         })
             .then(res => {
