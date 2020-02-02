@@ -1,6 +1,7 @@
 <template>
   <div v-if="ad">
-    <b-button @click="featureAd">Feature ad</b-button>
+    <h3>Doesn't work locally</h3>
+    <b-button @click="featureAd" disabled>Feature ad</b-button>
   </div>
 </template>
 
@@ -30,6 +31,7 @@ export default {
   },
   methods: {
     featureAd() {
+      console.log(this.ad);
       this.$store.dispatch("featureAd", { ad: this.ad });
     }
   }
