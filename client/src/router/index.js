@@ -14,6 +14,8 @@ import EditAd from "@/components/pages/ads/EditAd";
 
 import MessagesIndex from "@/components/pages/messages/Index";
 
+import error from "@/components/pages/error/index";
+
 import store from "../store/";
 
 Vue.use(Router);
@@ -76,6 +78,11 @@ let router = new Router({
             path: "/ad/:id/boost",
             name: "BoostAd",
             component: BoostAd
+        },
+        {
+            path: "*",
+            name: "error",
+            component: error
         }
     ]
 });
