@@ -60,12 +60,12 @@
           class="w-50 my-4"
         >
           <b-card-text>
-            Location: {{ad.user.location}}
+            Location: {{ad.user.location || 'undefined'}}
             <br />
             Member since: {{ad.user.created_at || formatDate}}
           </b-card-text>
 
-          <b-button @click="redirect('user', ad.user.id)" variant="info">View profile</b-button>
+          <b-button @click="redirect('user', ad.user.id)" variant="info" disabled>View profile</b-button>
         </b-card>
         <!-- <b-col cols="4"> -->
 
@@ -220,7 +220,7 @@ export default {
     },
     isNumber: function(evt) {
       evt = evt ? evt : window.event;
-      var charCode = evt.which ? evt.which : evt.keyCode;
+      let charCode = evt.which ? evt.which : evt.keyCode;
       if (
         charCode > 31 &&
         (charCode < 48 || charCode > 57) &&
@@ -242,8 +242,7 @@ export default {
           this.fullBids.forEach(bid => {
             this.bids.push({
               Amount: parseInt(bid.amount),
-              Who: bid.user.name,
-              WhoId: bid.user.id
+              Who: bid.user.name
             });
           });
         })
