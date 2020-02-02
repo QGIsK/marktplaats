@@ -37,6 +37,9 @@
               </b-form-group>
             </div>
           </div>
+          <div class="mt-5">
+            <b-button @click="searchDistance()">Search</b-button>
+          </div>
         </b-form>
       </b-container>
     </b-jumbotron>
