@@ -30,7 +30,7 @@ class User extends Authenticatable implements JWTSubject
         'password', 'remember_token',
     ];
 
-     public function ads()
+    public function ads()
     {
         return $this->hasMany(Ads::class);
     }
@@ -48,5 +48,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
     }
 }

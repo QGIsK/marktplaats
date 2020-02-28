@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
         Category::create([
             'tag' => 'another'
         ]);
-        $path = 'C:\Users\Demian\Documents\GitHub\marktplaats\4pp.sql';
+        $path = '4pp.sql';
         DB::unprepared(file_get_contents($path));
     }
 }
