@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\WebsocketDemoEvent;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,6 +14,12 @@
 */
 
 // Route::get('/{any}', 'SinglePageController@index')->where('any', '.*');
+
+Route::get("/", function () {
+    broadcast(new WebsocketDemoEvent("somedata"));
+
+    return view('welcome');
+});
 
 Route::name('webhooks.mollie')->post(
     'webhooks/mollie',
