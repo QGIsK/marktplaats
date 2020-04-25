@@ -69,6 +69,14 @@ Route::prefix('file')->group(function () {
     });
 });
 
+Route::prefix("messages")->group(function () {
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get("/", 'MessageController@index');
+        Route::post("/", 'MessageController@store');
+    });
+});
+
+
 Route::prefix("feature")->group(function () {
     Route::group(['middleware' => 'auth:api'], function () {
         Route::post("/{ad}", 'FeatureController@store');
