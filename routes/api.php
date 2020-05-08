@@ -73,9 +73,9 @@ Route::prefix("messages")->group(function () {
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get("/", 'MessageController@index');
         Route::post("/", 'MessageController@store');
+        Route::get("/{id}", 'MessageController@show');
     });
 });
-
 
 Route::prefix("feature")->group(function () {
     Route::group(['middleware' => 'auth:api'], function () {
