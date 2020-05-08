@@ -64,9 +64,38 @@ class MessageController extends Controller
             return response()->json(['error' => 'You can\'t message yourself']);
         }
 
+        // dd(intval($id), $request->user()->id);
+
+        // return MessageResource::collection(
+        // Message::findOrFail(
+        //     [
+        //         'user_id' => $request->user()->id,
+        //         'to_id' => intval($id)
+        //     ],
+        //     [
+        //         'to_id' => $request->user()->id,
+        //         'user_id' => intval($id)
+        //     ]
+        // )
+        // ->orWhere([
+        //     'to_id' => $request->user()->id,
+        //     'user_id' => intval($id)
+        // ])
+        // ->latest()
+        // ->get();
+        // );
+
         return MessageResource::collection(
-            Message::where(['user_id' => $request->user()->id, 'to_id' => $id])
-                ->orWhere(['to_id' => $request->user()->id, 'user_id' => $id])
+            Message::where(
+                [
+                    'user_id' => $request->user()->id,
+                    'to_id' => intval($id)
+                ],
+                [
+                    'user_id' => intval($id),
+                    'to_id' => $request->user()->id
+                ]
+            )
                 ->latest()
                 ->get()
         );
