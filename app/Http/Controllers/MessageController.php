@@ -34,9 +34,20 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         // save new message and send broadcast + email
-        if (!$request->from || !$request->to || $request->message) {
+        if (!$request->to) {
             return response()->json(['error' => 'Please provide all fields']);
         }
+        if (!$request->message) {
+            return response()->json(['error' => 'Please provide all fields']);
+        }
+
+        $message = Message::create([
+            'user_id' => $request->user()->id,
+            'to_id' => $request->to,
+            'message' => $request->message
+        ]);
+
+        return new MessageResource($message);
     }
 
     /**
@@ -45,8 +56,19 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         // get all messages by specific user
+        // dd(intval($id), $request->user()->id);
+        if (intval($id) === $request->user()->id) {
+            return response()->json(['error' => 'You can\'t message yourself']);
+        }
+
+        return MessageResource::collection(
+            Message::where(['user_id' => $request->user()->id, 'to_id' => $id])
+                ->orWhere(['to_id' => $request->user()->id, 'user_id' => $id])
+                ->latest()
+                ->get()
+        );
     }
 }
