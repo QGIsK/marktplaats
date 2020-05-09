@@ -13,9 +13,10 @@ class CreateChatRoom extends Migration
      */
     public function up()
     {
-        Schema::create('chat_room', function (Blueprint $table) {
+        Schema::create('chat_rooms', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->json('members');
+            $table->unsignedInteger('member1')->unsigned();
+            $table->unsignedInteger('member2')->unsigned();
             $table->timestamps();
         });
     }
