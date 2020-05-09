@@ -69,11 +69,11 @@ Route::prefix('file')->group(function () {
     });
 });
 
-Route::prefix("messages")->group(function () {
+Route::prefix("chats")->group(function () {
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::get("/", 'MessageController@index');
-        Route::post("/", 'MessageController@store');
-        Route::get("/{id}", 'MessageController@show');
+        Route::get("/", 'ChatController@index');
+        Route::post("/{id}", 'ChatController@store');
+        Route::get("/{id}", 'ChatController@show');
     });
 });
 
