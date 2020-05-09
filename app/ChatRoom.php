@@ -6,12 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChatRoom extends Model
 {
-    protected $fillable = ['members'];
+    protected $fillable = ['member1', 'member2'];
     public function message()
     {
         return $this->hasMany(Message::class);
     }
-    protected $casts = [
-        'shifts' => 'array'
-    ];
 }
