@@ -32,9 +32,33 @@ class ChatController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id )
+    public function store(Request $request)
     {
-        
+        if (!$request->member2) {
+            return response()->json(['error' => 'Please provide a recipient']);
+        }
+
+        $room = ChatRoom::where([
+            'member1' => $request->user()->id,
+            'member2' => $request->member2
+        ])
+            ->orWhere([
+                'member1' => $request->member2,
+                'member2' => $request->user()->id
+            ])
+            ->first();
+        if ($room) {
+            return response()->json([
+                'error' => 'A room with these members already exist'
+            ]);
+        }
+
+        $chat = ChatRoom::create([
+            'member1' => $request->user()->id,
+            'member2' => $request->member2
+        ]);
+
+        return new ChatResource($chat);
     }
 
     /**
@@ -43,9 +67,27 @@ class ChatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        $chat = ChatRoom::findOrFail($id);
+
+        if (
+            !$chat->member1 === $request->user()->id ||
+            !$chat->member2 === $request->user()->id
+        ) {
+            return response()->json([
+                'error' => 'You\'re not a member of this chat.'
+            ]);
+        }
+
+        $messages = Message::where('chat_room', $chat->id)
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'chat' => $chat,
+            'messages' => $messages
+        ]);
     }
 
     /**
@@ -57,7 +99,6 @@ class ChatController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
     }
 
     /**
