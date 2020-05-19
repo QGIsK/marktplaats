@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Message;
 use App\Http\Resources\MessageResource;
+use App\ChatRoom;
+use App\Http\Resources\ChatResource;
+
 class MessageController extends Controller
 {
     /**
@@ -16,13 +19,6 @@ class MessageController extends Controller
      */
     public function index(Request $request)
     {
-        //Get all to and from messages to current user
-        return MessageResource::collection(
-            Message::where('user_id', $request->user()->id)
-                ->orWhere('to_id', $request->user()->id)
-                ->latest()
-                ->get()
-        );
     }
 
     /**
@@ -31,19 +27,27 @@ class MessageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $chat)
     {
-        // save new message and send broadcast + email
-        if (!$request->to) {
-            return response()->json(['error' => 'Please provide all fields']);
+        $chat = ChatRoom::findOrFail($chat);
+        if (
+            !$chat->member1 === $request->user()->id ||
+            !$chat->member2 === $request->user()->id
+        ) {
+            return response()->json([
+                'error' => 'You\'re not a member of this chat.'
+            ]);
         }
+
         if (!$request->message) {
-            return response()->json(['error' => 'Please provide all fields']);
+            return response()->json([
+                'error' => 'Please provide all fields'
+            ]);
         }
 
         $message = Message::create([
-            'user_id' => $request->user()->id,
-            'to_id' => $request->to,
+            'user' => $request->user()->id,
+            'chat_room' => $chat->id,
             'message' => $request->message
         ]);
 
@@ -58,46 +62,5 @@ class MessageController extends Controller
      */
     public function show($id, Request $request)
     {
-        // get all messages by specific user
-        // dd(intval($id), $request->user()->id);
-        if (intval($id) === $request->user()->id) {
-            return response()->json(['error' => 'You can\'t message yourself']);
-        }
-
-        // dd(intval($id), $request->user()->id);
-
-        // return MessageResource::collection(
-        // Message::findOrFail(
-        //     [
-        //         'user_id' => $request->user()->id,
-        //         'to_id' => intval($id)
-        //     ],
-        //     [
-        //         'to_id' => $request->user()->id,
-        //         'user_id' => intval($id)
-        //     ]
-        // )
-        // ->orWhere([
-        //     'to_id' => $request->user()->id,
-        //     'user_id' => intval($id)
-        // ])
-        // ->latest()
-        // ->get();
-        // );
-
-        return MessageResource::collection(
-            Message::where(
-                [
-                    'user_id' => $request->user()->id,
-                    'to_id' => intval($id)
-                ],
-                [
-                    'user_id' => intval($id),
-                    'to_id' => $request->user()->id
-                ]
-            )
-                ->latest()
-                ->get()
-        );
     }
 }
