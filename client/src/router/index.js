@@ -12,7 +12,8 @@ import NewAd from "@/components/pages/ads/NewAd";
 import BoostAd from "@/components/pages/ads/BoostAd";
 import EditAd from "@/components/pages/ads/EditAd";
 
-import MessagesIndex from "@/components/pages/messages/Index";
+import chatIndex from "@/components/pages/chats/Index";
+import chat from "@/components/pages/chats/Chat";
 
 import error from "@/components/pages/error/index";
 
@@ -62,9 +63,17 @@ let router = new Router({
             }
         },
         {
-            path: "/messages",
-            name: "MessagesIndex",
-            component: MessagesIndex,
+            path: "/chats",
+            name: "chatIndex",
+            component: chatIndex,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/chats/:id",
+            name: "chat",
+            component: chat,
             meta: {
                 requiresAuth: true
             }
