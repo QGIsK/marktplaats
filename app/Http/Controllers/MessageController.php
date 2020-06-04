@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Event;
+use App\Events\MessageEvent;
+
 use App\Message;
 use App\Http\Resources\MessageResource;
 use App\ChatRoom;
@@ -50,6 +53,8 @@ class MessageController extends Controller
             'chat_room' => $chat->id,
             'message' => $request->message
         ]);
+
+        event(new MessageEvent($message));
 
         return new MessageResource($message);
     }
