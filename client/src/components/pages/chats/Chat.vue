@@ -10,22 +10,24 @@
                                 : chat.member1
                         }}
                     </b-card-title>
-                    <span v-for="msg in messages" :key="msg.id">
-                        <b-row v-if="msg.self">
-                            <b-col cols="3" class="ml-auto">
-                                <b-button variant="primary" class="m-1">
-                                    {{ msg.message }}
-                                </b-button>
-                            </b-col>
-                        </b-row>
-                        <b-row v-else>
-                            <b-col cols="3">
-                                <b-button variant="secondary" class="m-1">
-                                    {{ msg.message }}
-                                </b-button>
-                            </b-col>
-                        </b-row>
-                    </span>
+                    <b-card-body class="overflow-auto" style="max-height:40vh">
+                        <span v-for="msg in messages" :key="msg.id">
+                            <b-row v-if="msg.self">
+                                <b-col cols="3" class="ml-auto">
+                                    <b-button variant="primary" class="m-1">
+                                        {{ msg.message }}
+                                    </b-button>
+                                </b-col>
+                            </b-row>
+                            <b-row v-else>
+                                <b-col cols="3">
+                                    <b-button variant="secondary" class="m-1">
+                                        {{ msg.message }}
+                                    </b-button>
+                                </b-col>
+                            </b-row>
+                        </span>
+                    </b-card-body>
                     <span>
                         <b-form-textarea
                             class="mt-5"
@@ -48,6 +50,24 @@
 </template>
 
 <script>
+import Echo from "laravel-echo";
+
+window.Pusher = require("pusher-js");
+window.Echo = new Echo({
+    broadcaster: "pusher",
+    key: "testing123",
+    wsHost: window.location.hostname,
+    wsPort: 6001
+});
+
+window.Echo.channel("messages").listen(
+    "messageEvent",
+    (channel, data, event) => {
+        console.log(channel);
+        console.log(data);
+        console.log(event);
+    }
+);
 export default {
     name: "Chat",
     data: () => ({
@@ -62,8 +82,10 @@ export default {
             }
         }
     },
+
     methods: {
         sendMessage() {
+            if (this.text == "") return;
             this.$http({
                 url: `/api/chats/message/${this.$route.params.id}`,
                 method: "POST",
