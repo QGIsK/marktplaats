@@ -54,7 +54,7 @@ class MessageController extends Controller
             'message' => $request->message
         ]);
 
-        event(new MessageEvent($message));
+        broadcast(new MessageEvent(auth()->user(), $message))->toOthers();
 
         return new MessageResource($message);
     }

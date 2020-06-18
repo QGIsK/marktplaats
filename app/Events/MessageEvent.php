@@ -10,10 +10,14 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
+use App\User;
 use App\Message;
+
 class MessageEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public $user;
 
     public $message;
     /**
@@ -21,8 +25,10 @@ class MessageEvent
      *
      * @return void
      */
-    public function __construct(Message $message)
+    public function __construct(User $user, Message $message)
     {
+        $this->user = $user;
+
         $this->message = $message;
     }
 
@@ -33,6 +39,6 @@ class MessageEvent
      */
     public function broadcastOn()
     {
-        return new channel('messages');
+        return new PresenceChannel('messages');
     }
 }

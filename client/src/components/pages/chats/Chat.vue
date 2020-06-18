@@ -60,14 +60,11 @@ window.Echo = new Echo({
     wsPort: 6001
 });
 
-window.Echo.channel("messages").listen(
-    "messageEvent",
-    (channel, data, event) => {
-        console.log(channel);
-        console.log(data);
-        console.log(event);
-    }
-);
+window.Echo.join("messages").listen("messageEvent", (channel, data, event) => {
+    console.log(channel);
+    console.log(data);
+    console.log(event);
+});
 export default {
     name: "Chat",
     data: () => ({

@@ -11,4 +11,6 @@
 |
 */
 
-Broadcast::channel('messages', function () {});
+Broadcast::channel('messages', function ($user) {
+    return $user;
+});
