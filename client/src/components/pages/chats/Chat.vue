@@ -50,21 +50,15 @@
 </template>
 
 <script>
+// window.Echo.channel("messages").listen(
+//     "messageEvent",
+//     (channel, data, event) => {
+//         console.log(channel);
+//         console.log(data);
+//         console.log(event);
+//     }
+// );
 import Echo from "laravel-echo";
-
-window.Pusher = require("pusher-js");
-window.Echo = new Echo({
-    broadcaster: "pusher",
-    key: "testing123",
-    wsHost: window.location.hostname,
-    wsPort: 6001
-});
-
-window.Echo.join("messages").listen("messageEvent", (channel, data, event) => {
-    console.log(channel);
-    console.log(data);
-    console.log(event);
-});
 export default {
     name: "Chat",
     data: () => ({
@@ -80,6 +74,23 @@ export default {
         }
     },
 
+    created() {
+        window.Pusher = require("pusher-js");
+        window.Echo = new Echo({
+            broadcaster: "pusher",
+            key: "testing123",
+            wsHost: window.location.hostname,
+            wsPort: 6001
+        });
+
+        window.Echo.join("messages").listen("MessageEvent", event => {
+            // this.messages.push({
+            //     message: event.message.message,
+            //     user: event.user
+            // });
+            console.log(event);
+        });
+    },
     methods: {
         sendMessage() {
             if (this.text == "") return;
