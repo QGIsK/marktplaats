@@ -50,15 +50,22 @@
 </template>
 
 <script>
-// window.Echo.channel("messages").listen(
-//     "messageEvent",
-//     (channel, data, event) => {
-//         console.log(channel);
-//         console.log(data);
-//         console.log(event);
-//     }
-// );
 import Echo from "laravel-echo";
+import VueCookies from "vue-cookies";
+
+window.Pusher = require("pusher-js");
+window.Echo = new Echo({
+    auth: {
+        headers: { Authorization: "Bearer " + VueCookies.get("token") }
+    },
+    authEndpoint:
+        "http://" + window.location.hostname + ":8000/broadcasting/auth",
+    broadcaster: "pusher",
+    key: "testing123",
+    wsHost: window.location.hostname,
+    wsPort: 6001
+});
+
 export default {
     name: "Chat",
     data: () => ({
@@ -74,15 +81,7 @@ export default {
         }
     },
 
-    created() {
-        window.Pusher = require("pusher-js");
-        window.Echo = new Echo({
-            broadcaster: "pusher",
-            key: "testing123",
-            wsHost: window.location.hostname,
-            wsPort: 6001
-        });
-
+    mounted() {
         window.Echo.join("messages").listen("MessageEvent", event => {
             // this.messages.push({
             //     message: event.message.message,
@@ -134,9 +133,6 @@ export default {
                 })
                 .catch(e => console.log(e));
         }
-    },
-    mounted() {
-        this.getChat();
     }
 };
 </script>
